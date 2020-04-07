@@ -1,0 +1,2 @@
+[30-Mar-2020 17:28:24 UTC] PHP Warning:  include(/css/style.css): failed to open stream: No such file or directory in /home/autoline2020/public_html/acceso/logout.php on line 13
+[30-Mar-2020 17:28:24 UTC] PHP Warning:  include(): Failed opening '/css/style.css' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/autoline2020/public_html/acceso/logout.php on line 13
