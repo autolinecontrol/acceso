@@ -13,7 +13,7 @@ if($_SESSION['logged_in'] == true){
 <!DOCTYPE html>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=euc-jp">
-  <title>Inicio 1</title>
+  <title>Inicio </title>
   <?php include 'css/css.html'; ?>
 </head>
 
