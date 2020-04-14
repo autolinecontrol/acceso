@@ -153,7 +153,7 @@
                                    <a href="javascript:void(0)" class="dropbtn" >Administrar</a>
                                    <div class="dropdown-content" >
                                    <a href="activarfuncionarios.php" >Roles Administradores</a>
-
+                                  <a href="grupo_acceso.php">Crear Grupos de Acceso</a>
                                     ';// <a href="ofice.php" >Oficinas</a>
                                     echo'
                                    </li>
