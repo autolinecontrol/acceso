@@ -326,7 +326,10 @@ else
                 }else{
                     $mostrador++;
                 }
+                if($mostrador!=0){
                 echo "<td colspan='$mostrador'>&nbsp;</td>";
+                }
+
                 // }
                 // for($k=0;$k<$mostrador;$k++){
                 //     echo "<td></td>";
