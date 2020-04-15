@@ -69,7 +69,7 @@ else
     //     </div>";
     // }
 
-    $sql="select * from controladoras order by direccionipcontroladora";
+    $sql="select * from grupo_acceso order by id";
     if(isset($_POST['crear']))
     {
         $contador=0;
@@ -169,7 +169,9 @@ else
                 if($validar==0)
                 {
                     echo "
+                    <br>
                     <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required><br><br>                   
+                    <br>
                     <table class = 'table table-striped table-bordered'>
                     <tr>
                         <th>Piso 5</th>
@@ -200,8 +202,9 @@ else
                         <td><input type='checkbox' name='cboxlooby' value='looby'></td>
                     </tr>
                     </table>
+                    <br>
                     <input type='submit' name='crear' class='btn btn-success' value='Guardar'>
-
+                    <br><br><br>
                     ";
                 }        
                 if($validar==1)
@@ -231,36 +234,128 @@ else
     if($validar==0)
     {
     ?>
+    
     <div class = "container">
         <table class = "table table-striped table-bordered">
         <tr>
             <th>Id</th>
-            <th>Nombre</th>
-            <th>Direccion</th>
-            <th>Estado</th>
-            <th>Grupo</th>
-            <th>Actualizar</th>
-            <th>Borrar</th>
+            <th>Nombre</th> 
+            <th colspan="12" style="text-align: center">Pisos</th>
+            <th>Editar</th>
+            <th>Eliminar</th>          
         </tr>
-        <?php
-        while($fila = mysqli_fetch_assoc($resultado))
-        {
-            echo '<tr>';
-            $id= $fila['idcontroladora'];
-            echo '<td>' . $fila['idcontroladora'] . '</td>';
-            echo '<td>' . $fila['nombrecontroladora'] . '</td>';
-            echo '<td>' . $fila['direccionipcontroladora'] . '</td>';
-            echo '<td>' . $fila['estado'] . '</td>';
-            echo '<td>' . $fila['Grupo'] . '</td>';
-            echo "<input type='hidden' name='idcontroladora' value='$id'>";
+           <?php
             
-            echo "<td><a class='btn btn-success' href='controladoras.php?traer=1&idcontroladora=$id'>Actualizar</a></td>";
-            echo "<td><a class='btn btn-danger' href='controladoras.php?borrar=1&idcontroladora=$id'>Borrar</a></td>";
-        }
-        mysqli_close($con);
-        echo "</table>";
-    }   
-    ?>
+            while($fila = mysqli_fetch_assoc($resultado))
+            {
+                $mostrador=0;
+                echo '<tr>';
+                $id= $fila['id'];
+                echo '<td>' . $fila['id'] . '</td>';
+                echo '<td>' . $fila['nombre'] . '</td>';
+                if($fila['p5']=='SI')
+                {
+                    echo "<td>Piso 5</td>";
+                }
+                else{
+                    $mostrador++;
+                }
+                if($fila['p6']=='SI')
+                {
+                    echo "<td>Piso 6</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p7']=='SI')
+                {
+                    echo "<td>Piso 7</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p8']=='SI')
+                {
+                    echo "<td>Piso 8</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p9']=='SI')
+                {
+                    echo "<td>Piso 9</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p10']=='SI')
+                {
+                    echo "<td>Piso 10</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p11']=='SI')
+                {
+                    echo "<td>Piso 11</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p12']=='SI')
+                {
+                    echo "<td>Piso 12</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p14']=='SI')
+                {
+                    echo "<td>Piso 14</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['p15']=='SI')
+                {
+                    echo "<td>Piso 15</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['sotanos']=='SI')
+                {
+                    echo "<td>Sotanos</td>";
+                }else{
+                    $mostrador++;
+                }
+                if($fila['looby']=='SI')
+                {
+                    echo "<td>Looby</td>";
+                }else{
+                    $mostrador++;
+                }
+                echo "<td colspan='$mostrador'>&nbsp;</td>";
+                // }
+                // for($k=0;$k<$mostrador;$k++){
+                //     echo "<td></td>";
+                // }
+                
+                echo "<td><a class='btn btn-success' href='grupo_acceso.php?traer=1&id=$id'>Editar</a></td>";
+                echo "<td><a class='btn btn-danger' href='grupo_acceso.php?borrar=1&id=$id'>Borrar</a></td>";
+
+            }
+    }
+    //     echo "<th>Algo</th>";
+    //     while($fila = mysqli_fetch_assoc($resultado))
+    //     {
+    //         echo '<tr>';
+    //         $id= $fila['idcontroladora'];
+    //         echo '<td>' . $fila['idcontroladora'] . '</td>';
+    //         echo '<td>' . $fila['nombrecontroladora'] . '</td>';
+    //         echo '<td>' . $fila['direccionipcontroladora'] . '</td>';
+    //         echo '<td>' . $fila['estado'] . '</td>';
+    //         echo '<td>' . $fila['Grupo'] . '</td>';
+    //         echo "<input type='hidden' name='idcontroladora' value='$id'>";
+            
+    //         echo "<td><a class='btn btn-success' href='controladoras.php?traer=1&idcontroladora=$id'>Actualizar</a></td>";
+    //         echo "<td><a class='btn btn-danger' href='controladoras.php?borrar=1&idcontroladora=$id'>Borrar</a></td>";
+    //     }
+    //     mysqli_close($con);
+    //     echo "</table>"; 
+        // }   
+    ?> 
         
     </form>
 </div>
