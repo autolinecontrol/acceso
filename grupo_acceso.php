@@ -72,12 +72,64 @@ else
     $sql="select * from controladoras order by direccionipcontroladora";
     if(isset($_POST['crear']))
     {
+        $contador=0;
         $nombre=$_POST['nombre'];
-        $direccion=$_POST['direccion'];
-        $estado=$_POST['estado'];
-        $grupo=$_POST['grupo'];
-        $sqlinsertar="INSERT INTO controladoras (nombrecontroladora, direccionipcontroladora, estado, Grupo) 
-        VALUES ('$nombre','$direccion','$estado','$grupo')";
+        $sqlinsertar="INSERT INTO grupo_acceso 
+        (id,nombre";
+        if(isset($_POST['cbox5'])){
+            $sqlinsertar.=',p5';
+            $contador++;
+        }
+        if(isset($_POST['cbox6'])){
+            $sqlinsertar.=',p6';
+            $contador++;
+        }
+        if(isset($_POST['cbox7'])){
+            $sqlinsertar.=',p7';
+            $contador++;
+        }
+        if(isset($_POST['cbox8'])){
+            $sqlinsertar.=',p8';
+            $contador++;
+        }
+        if(isset($_POST['cbox9'])){
+            $sqlinsertar.=',p9';
+            $contador++;
+        }
+        if(isset($_POST['cbox10'])){
+            $sqlinsertar.=',p10';
+            $contador++;
+        }
+        if(isset($_POST['cbox11'])){
+            $sqlinsertar.=',p11';
+            $contador++;
+        }
+        if(isset($_POST['cbox12'])){
+            $sqlinsertar.=',p12';
+            $contador++;
+        }
+        if(isset($_POST['cbox14'])){
+            $sqlinsertar.=',p14';
+            $contador++;
+        }
+        if(isset($_POST['cbox15'])){
+            $sqlinsertar.=',p15';
+            $contador++;
+        }
+        if(isset($_POST['cboxsotanos'])){
+            $sqlinsertar.=',sotanos';
+            $contador++;
+        }
+        if(isset($_POST['cboxlooby'])){
+            $sqlinsertar.=',looby';
+            $contador++;
+        }
+        $sqlinsertar.=") VALUES(NULL,'$nombre'";
+        for($i=0;$i<$contador;$i++){
+            $sqlinsertar.=",'SI'";
+        }
+        $sqlinsertar.=')';
+        //echo $sqlinsertar;  
         $resultadoinsert = mysqli_query($con,$sqlinsertar);
     }
     if(isset($_GET['traer']))
@@ -117,11 +169,40 @@ else
                 if($validar==0)
                 {
                     echo "
-                    <input type='text' name='nombre'  placeholder='Nombre Controladora'><br><br>
-                    <input type='text' name='direccion'  placeholder='Direccion Controladora'><br><br>
-                    <input type='text' name='estado'  placeholder='Estado Controladora'><br><br>
-                    <input type='text' name='grupo'  placeholder='Grupo Controladora'><br><br>
-                    <input type='submit' name='crear' class='btn btn-success' value='Guardar'>";
+                    <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required><br><br>                   
+                    <table class = 'table table-striped table-bordered'>
+                    <tr>
+                        <th>Piso 5</th>
+                        <th>Piso 6</th>
+                        <th>Piso 7</th>
+                        <th>Piso 8</th>
+                        <th>Piso 9</th>
+                        <th>Piso 10</th>
+                        <th>Piso 11</th>
+                        <th>Piso 12</th>
+                        <th>Piso 14</th>
+                        <th>Piso 15</th>
+                        <th>Sotanos</th>
+                        <th>Looby</th>
+                    </tr>
+                    <tr>
+                        <td><input type='checkbox' name='cbox5' value='5'></td>
+                        <td><input type='checkbox' name='cbox6' value='6'></td>
+                        <td><input type='checkbox' name='cbox7' value='7'></td>
+                        <td><input type='checkbox' name='cbox8' value='8'></td>
+                        <td><input type='checkbox' name='cbox9' value='9'></td>
+                        <td><input type='checkbox' name='cbox10' value='10'></td>
+                        <td><input type='checkbox' name='cbox11' value='11'></td>
+                        <td><input type='checkbox' name='cbox12' value='12'></td>
+                        <td><input type='checkbox' name='cbox14' value='14'></td>
+                        <td><input type='checkbox' name='cbox15' value='15'></td>
+                        <td><input type='checkbox' name='cboxsotanos' value='sotanos'></td>
+                        <td><input type='checkbox' name='cboxlooby' value='looby'></td>
+                    </tr>
+                    </table>
+                    <input type='submit' name='crear' class='btn btn-success' value='Guardar'>
+
+                    ";
                 }        
                 if($validar==1)
                 {
