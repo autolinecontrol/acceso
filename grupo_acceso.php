@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require 'conexion.php';
 require 'db.php';
 //ob_start();
@@ -29,7 +30,7 @@ else
 {
     $user = $result->fetch_assoc();
     $activo = $user['activo'];
-    $documento=$user['identificacion'];
+    $documento=$user['Identificacion'];
 }
 
 ?>
@@ -56,6 +57,7 @@ else
         vertical-align:middle;
         cursor:pointer;
     }
+    
     </style>
 </head>
 <body>
@@ -72,6 +74,7 @@ else
     $sql="select * from grupo_acceso order by id";
     if(isset($_POST['crear']))
     {
+        $torre=$_POST['torre'];
         $contador=0;
         $nombre=$_POST['nombre'];
         $sqlinsertar="INSERT INTO grupo_acceso 
@@ -124,18 +127,26 @@ else
             $sqlinsertar.=',looby';
             $contador++;
         }
-        $sqlinsertar.=") VALUES(NULL,'$nombre'";
-        for($i=0;$i<$contador;$i++){
-            $sqlinsertar.=",'SI'";
+        if(isset($_POST['cboxpv'])){
+            $sqlinsertar.=',pv';
+            $contador++;
         }
-        $sqlinsertar.=')';
+        if(isset($_POST['cboxpf'])){
+            $sqlinsertar.=',pf';
+            $contador++;
+        }
+        $sqlinsertar.=",torre) VALUES(NULL,'$nombre'";
+        for($i=0;$i<$contador;$i++){
+            $sqlinsertar.=",1";
+        }
+        $sqlinsertar.=",'$torre')";
         //echo $sqlinsertar;  
         $resultadoinsert = mysqli_query($con,$sqlinsertar);
     }
     if(isset($_GET['traer']))
     {
-        $idcontroladora=$_GET['idcontroladora'];
-        $sql="SELECT * FROM controladoras WHERE idcontroladora =$idcontroladora";
+        $idtraer=$_GET['id'];
+        $sql="SELECT * FROM grupo_acceso WHERE id =$id";
         $validar=1;
     }
     if(isset($_POST['actualizar']))
@@ -151,8 +162,8 @@ else
     }
     if(isset($_GET['borrar']))
     {
-        $idcontroladora=$_GET['idcontroladora'];
-        $sqlborrar="DELETE FROM controladoras WHERE idcontroladora =$idcontroladora";
+        $id=$_GET['id'];
+        $sqlborrar="DELETE FROM grupo_acceso WHERE id =$id";
         $resultadoborrar = mysqli_query($con,$sqlborrar);
     }  
     $resultado = mysqli_query($con,$sql);
@@ -161,7 +172,8 @@ else
     ?>           
    
         <header class="header-two-bars">
-        <div class="header-second-bar" style="text-align:center">             
+        <div class="header-second-bar" style="text-align:center">       
+            
             <br>
             <form class="contact_form" id="buscador" name="buscador" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">               
                 <?php
@@ -170,7 +182,13 @@ else
                 {
                     echo "
                     <br>
-                    <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required><br><br>                   
+                    <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required><br><br>
+                    <select name='torre'>
+                        <option value='1' selected>Torre A</option> 
+                        <option value='2' >Torre B</option>
+                        <option value='3'>Torre A y B</option>
+                    </select>
+                    <br><br>                   
                     <br>
                     <table class = 'table table-striped table-bordered'>
                     <tr>
@@ -186,6 +204,8 @@ else
                         <th>Piso 15</th>
                         <th>Sotanos</th>
                         <th>Looby</th>
+                        <th>Parqueadero Visitantes</th>
+                        <th>Parqueadero Funcionarios</th>
                     </tr>
                     <tr>
                         <td><input type='checkbox' name='cbox5' value='5'></td>
@@ -200,6 +220,8 @@ else
                         <td><input type='checkbox' name='cbox15' value='15'></td>
                         <td><input type='checkbox' name='cboxsotanos' value='sotanos'></td>
                         <td><input type='checkbox' name='cboxlooby' value='looby'></td>
+                        <td><input type='checkbox' name='cboxpv' value='pv'></td>
+                        <td><input type='checkbox' name='cboxpf' value='pf'></td>
                     </tr>
                     </table>
                     <br>
@@ -217,12 +239,52 @@ else
                         $estado= $fila['estado'];
                         $grupo= $fila['Grupo'];
                         echo "
-                        <input type='text' name='idcontroladora'  placeholder='Id Controladora' value='$id'><br><br>
-                        <input type='text' name='nombre'  placeholder='Nombre Controladora' value='$nombre'><br><br>
-                        <input type='text' name='direccion'  placeholder='Direccion Controladora' value='$direccion'><br><br>
-                        <input type='text' name='estado'  placeholder='Estado Controladora' value='$estado'><br><br>
-                        <input type='text' name='grupo'  placeholder='Grupo Controladora' value='$grupo'><br><br>
-                        <input type='submit' name='actualizar' class='btn btn-success' value='Guardar'>"; 
+                        <br>
+                        <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required><br><br>
+                        <select name='torre'>
+                            <option value='A' selected>Torre A</option> 
+                            <option value='B' >Torre B</option>
+                            <option value='C'>Torre A y B</option>
+                        </select>
+                        <br><br>                   
+                        <br>
+                        <table class = 'table table-striped table-bordered'>
+                        <tr>
+                            <th>Piso 5</th>
+                            <th>Piso 6</th>
+                            <th>Piso 7</th>
+                            <th>Piso 8</th>
+                            <th>Piso 9</th>
+                            <th>Piso 10</th>
+                            <th>Piso 11</th>
+                            <th>Piso 12</th>
+                            <th>Piso 14</th>
+                            <th>Piso 15</th>
+                            <th>Sotanos</th>
+                            <th>Looby</th>
+                            <th>Parqueadero Visitantes</th>
+                            <th>Parqueadero Funcionarios</th>
+                        </tr>
+                        <tr>
+                            <td><input type='checkbox' name='cbox5' value='5'></td>
+                            <td><input type='checkbox' name='cbox6' value='6'></td>
+                            <td><input type='checkbox' name='cbox7' value='7'></td>
+                            <td><input type='checkbox' name='cbox8' value='8'></td>
+                            <td><input type='checkbox' name='cbox9' value='9'></td>
+                            <td><input type='checkbox' name='cbox10' value='10'></td>
+                            <td><input type='checkbox' name='cbox11' value='11'></td>
+                            <td><input type='checkbox' name='cbox12' value='12'></td>
+                            <td><input type='checkbox' name='cbox14' value='14'></td>
+                            <td><input type='checkbox' name='cbox15' value='15'></td>
+                            <td><input type='checkbox' name='cboxsotanos' value='sotanos'></td>
+                            <td><input type='checkbox' name='cboxlooby' value='looby'></td>
+                            <td><input type='checkbox' name='cboxpv' value='pv'></td>
+                            <td><input type='checkbox' name='cboxpf' value='pf'></td>
+                        </tr>
+                        </table>
+                        <br>
+                        <input type='submit' name='crear' class='btn btn-success' value='Guardar'>
+                        <br><br><br>"; 
                     }  
                 }
                    
@@ -240,7 +302,8 @@ else
         <tr>
             <th>Id</th>
             <th>Nombre</th> 
-            <th colspan="12" style="text-align: center">Pisos</th>
+            <th colspan="14" style="text-align: center">Pisos</th>
+            <th >Torre</th>
             <th>Editar</th>
             <th>Eliminar</th>          
         </tr>
@@ -253,82 +316,99 @@ else
                 $id= $fila['id'];
                 echo '<td>' . $fila['id'] . '</td>';
                 echo '<td>' . $fila['nombre'] . '</td>';
-                if($fila['p5']=='SI')
+                if($fila['p5']==1)
                 {
                     echo "<td>Piso 5</td>";
                 }
                 else{
                     $mostrador++;
                 }
-                if($fila['p6']=='SI')
+                if($fila['p6']==1)
                 {
                     echo "<td>Piso 6</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p7']=='SI')
+                if($fila['p7']==1)
                 {
                     echo "<td>Piso 7</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p8']=='SI')
+                if($fila['p8']==1)
                 {
                     echo "<td>Piso 8</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p9']=='SI')
+                if($fila['p9']==1)
                 {
                     echo "<td>Piso 9</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p10']=='SI')
+                if($fila['p10']==1)
                 {
                     echo "<td>Piso 10</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p11']=='SI')
+                if($fila['p11']==1)
                 {
                     echo "<td>Piso 11</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p12']=='SI')
+                if($fila['p12']==1)
                 {
                     echo "<td>Piso 12</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p14']=='SI')
+                if($fila['p14']==1)
                 {
                     echo "<td>Piso 14</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['p15']=='SI')
+                if($fila['p15']==1)
                 {
                     echo "<td>Piso 15</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['sotanos']=='SI')
+                if($fila['sotanos']==1)
                 {
                     echo "<td>Sotanos</td>";
                 }else{
                     $mostrador++;
                 }
-                if($fila['looby']=='SI')
+                if($fila['looby']==1)
                 {
                     echo "<td>Looby</td>";
                 }else{
                     $mostrador++;
                 }
-                if($mostrador!=0){
-                echo "<td colspan='$mostrador'>&nbsp;</td>";
+                if($fila['pv']==1)
+                {
+                    echo "<td>Parqueadero Visitantes</td>";
+                }else{
+                    $mostrador++;
                 }
+                if($fila['pf']==1)
+                {
+                    echo "<td>Parqueadero Funcionarios</td>";
+                }else{
+                    $mostrador++;
+                }
+                $torremostrar=$fila['torre'];
+                if($mostrador!=0){
+                    echo "<td colspan='$mostrador'>&nbsp;</td>";
+                    }
+                if($torremostrar=='3')
+                $torremostrar='A y B';
+                echo "<td>$torremostrar</td>";
+                
 
                 // }
                 // for($k=0;$k<$mostrador;$k++){

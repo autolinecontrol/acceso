@@ -58,7 +58,7 @@ font-family: Ubuntu;
     padding: 3px;
 }
 
-.contact_form input {
+.contact_form input,select {
     height: 40px;
     width: 300px;
     padding: 5px 8px;
