@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 16-04-2020 a las 03:15:28
--- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.3.16
+-- Host: localhost
+-- Generation Time: Apr 16, 2020 at 05:57 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `autoline2020_teleport`
+-- Database: `autoline2020_teleport`
 --
 CREATE DATABASE IF NOT EXISTS `autoline2020_teleport` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `autoline2020_teleport`;
@@ -26,7 +26,7 @@ USE `autoline2020_teleport`;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `controladoras`
+-- Table structure for table `controladoras`
 --
 
 CREATE TABLE `controladoras` (
@@ -44,7 +44,7 @@ CREATE TABLE `controladoras` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `fotos`
+-- Table structure for table `fotos`
 --
 
 CREATE TABLE `fotos` (
@@ -55,7 +55,7 @@ CREATE TABLE `fotos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `funcionarios`
+-- Table structure for table `funcionarios`
 --
 
 CREATE TABLE `funcionarios` (
@@ -71,7 +71,7 @@ CREATE TABLE `funcionarios` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `funcionarios`
+-- Dumping data for table `funcionarios`
 --
 
 INSERT INTO `funcionarios` (`id`, `Identificacion`, `nombre`, `oficina`, `email`, `password`, `hash`, `activo`, `perfil`) VALUES
@@ -81,7 +81,7 @@ INSERT INTO `funcionarios` (`id`, `Identificacion`, `nombre`, `oficina`, `email`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo_acceso`
+-- Table structure for table `grupo_acceso`
 --
 
 CREATE TABLE `grupo_acceso` (
@@ -105,7 +105,7 @@ CREATE TABLE `grupo_acceso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `grupo_acceso`
+-- Dumping data for table `grupo_acceso`
 --
 
 INSERT INTO `grupo_acceso` (`id`, `nombre`, `p5`, `p6`, `p7`, `p8`, `p9`, `p10`, `p11`, `p12`, `p14`, `p15`, `sotanos`, `looby`, `pv`, `pf`, `torre`) VALUES
@@ -114,25 +114,25 @@ INSERT INTO `grupo_acceso` (`id`, `nombre`, `p5`, `p6`, `p7`, `p8`, `p9`, `p10`,
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo_dia`
+-- Table structure for table `grupo_dia`
 --
 
 CREATE TABLE `grupo_dia` (
   `iddia` int(11) NOT NULL,
-  `nombre` varchar(10) NOT NULL,
-  `Lunes` varchar(2) NOT NULL,
-  `Martes` varchar(2) NOT NULL,
-  `Miercoles` varchar(2) NOT NULL,
-  `Jueves` varchar(2) NOT NULL,
-  `Viernes` varchar(2) NOT NULL,
-  `Sabado` varchar(2) NOT NULL,
-  `Domingo` varchar(2) NOT NULL
+  `numero` tinyint(4) NOT NULL DEFAULT 1,
+  `Lunes` tinyint(1) NOT NULL DEFAULT 0,
+  `Martes` tinyint(1) NOT NULL DEFAULT 0,
+  `Miercoles` tinyint(1) NOT NULL DEFAULT 0,
+  `Jueves` tinyint(1) NOT NULL DEFAULT 0,
+  `Viernes` tinyint(1) NOT NULL DEFAULT 0,
+  `Sabado` tinyint(1) NOT NULL DEFAULT 0,
+  `Domingo` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo_horario`
+-- Table structure for table `grupo_horario`
 --
 
 CREATE TABLE `grupo_horario` (
@@ -145,7 +145,7 @@ CREATE TABLE `grupo_horario` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo_torre`
+-- Table structure for table `grupo_torre`
 --
 
 CREATE TABLE `grupo_torre` (
@@ -154,7 +154,7 @@ CREATE TABLE `grupo_torre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `grupo_torre`
+-- Dumping data for table `grupo_torre`
 --
 
 INSERT INTO `grupo_torre` (`idtorre`, `nombre`) VALUES
@@ -164,7 +164,7 @@ INSERT INTO `grupo_torre` (`idtorre`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `log`
+-- Table structure for table `log`
 --
 
 CREATE TABLE `log` (
@@ -180,7 +180,7 @@ CREATE TABLE `log` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `logregistros`
+-- Table structure for table `logregistros`
 --
 
 CREATE TABLE `logregistros` (
@@ -202,7 +202,7 @@ CREATE TABLE `logregistros` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `oficinas`
+-- Table structure for table `oficinas`
 --
 
 CREATE TABLE `oficinas` (
@@ -219,7 +219,7 @@ CREATE TABLE `oficinas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `parqueadero`
+-- Table structure for table `parqueadero`
 --
 
 CREATE TABLE `parqueadero` (
@@ -232,7 +232,7 @@ CREATE TABLE `parqueadero` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `personas`
+-- Table structure for table `personas`
 --
 
 CREATE TABLE `personas` (
@@ -244,7 +244,7 @@ CREATE TABLE `personas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pingreso`
+-- Table structure for table `pingreso`
 --
 
 CREATE TABLE `pingreso` (
@@ -255,7 +255,7 @@ CREATE TABLE `pingreso` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `psalida`
+-- Table structure for table `psalida`
 --
 
 CREATE TABLE `psalida` (
@@ -266,7 +266,7 @@ CREATE TABLE `psalida` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `transacciones`
+-- Table structure for table `transacciones`
 --
 
 CREATE TABLE `transacciones` (
@@ -282,7 +282,7 @@ CREATE TABLE `transacciones` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -304,7 +304,7 @@ CREATE TABLE `usuarios` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `visitantes`
+-- Table structure for table `visitantes`
 --
 
 CREATE TABLE `visitantes` (
@@ -328,176 +328,182 @@ CREATE TABLE `visitantes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `controladoras`
+-- Indexes for table `controladoras`
 --
 ALTER TABLE `controladoras`
   ADD PRIMARY KEY (`idcontroladora`);
 
 --
--- Indices de la tabla `fotos`
+-- Indexes for table `fotos`
 --
 ALTER TABLE `fotos`
   ADD PRIMARY KEY (`identificacion`);
 
 --
--- Indices de la tabla `funcionarios`
+-- Indexes for table `funcionarios`
 --
 ALTER TABLE `funcionarios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `grupo_acceso`
+-- Indexes for table `grupo_acceso`
 --
 ALTER TABLE `grupo_acceso`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `grupo_dia`
+-- Indexes for table `grupo_dia`
 --
 ALTER TABLE `grupo_dia`
   ADD PRIMARY KEY (`iddia`);
 
 --
--- Indices de la tabla `grupo_horario`
+-- Indexes for table `grupo_horario`
 --
 ALTER TABLE `grupo_horario`
   ADD PRIMARY KEY (`idhorario`);
 
 --
--- Indices de la tabla `grupo_torre`
+-- Indexes for table `grupo_torre`
 --
 ALTER TABLE `grupo_torre`
   ADD PRIMARY KEY (`idtorre`);
 
 --
--- Indices de la tabla `log`
+-- Indexes for table `log`
 --
 ALTER TABLE `log`
   ADD PRIMARY KEY (`idLog`),
   ADD KEY `identificacion` (`identificacion`);
 
 --
--- Indices de la tabla `logregistros`
+-- Indexes for table `logregistros`
 --
 ALTER TABLE `logregistros`
   ADD PRIMARY KEY (`idLog`),
   ADD KEY `idVisitante` (`idVisitante`,`idAutoriza`);
 
 --
--- Indices de la tabla `oficinas`
+-- Indexes for table `oficinas`
 --
 ALTER TABLE `oficinas`
   ADD PRIMARY KEY (`Numero`),
   ADD UNIQUE KEY `idOficina` (`idOficina`) USING BTREE;
 
 --
--- Indices de la tabla `parqueadero`
+-- Indexes for table `parqueadero`
 --
 ALTER TABLE `parqueadero`
   ADD PRIMARY KEY (`Identificacion`);
 
 --
--- Indices de la tabla `personas`
+-- Indexes for table `personas`
 --
 ALTER TABLE `personas`
   ADD PRIMARY KEY (`usuario`);
 
 --
--- Indices de la tabla `pingreso`
+-- Indexes for table `pingreso`
 --
 ALTER TABLE `pingreso`
   ADD PRIMARY KEY (`idpingreso`);
 
 --
--- Indices de la tabla `psalida`
+-- Indexes for table `psalida`
 --
 ALTER TABLE `psalida`
   ADD PRIMARY KEY (`idpsalida`);
 
 --
--- Indices de la tabla `transacciones`
+-- Indexes for table `transacciones`
 --
 ALTER TABLE `transacciones`
   ADD PRIMARY KEY (`idtransaccion`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`idusuarios`),
   ADD KEY `identificacion` (`identificacion`);
 
 --
--- Indices de la tabla `visitantes`
+-- Indexes for table `visitantes`
 --
 ALTER TABLE `visitantes`
   ADD PRIMARY KEY (`identificacion`),
   ADD UNIQUE KEY `idvisitante` (`idvisitante`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `funcionarios`
+-- AUTO_INCREMENT for table `funcionarios`
 --
 ALTER TABLE `funcionarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `grupo_acceso`
+-- AUTO_INCREMENT for table `grupo_acceso`
 --
 ALTER TABLE `grupo_acceso`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `grupo_torre`
+-- AUTO_INCREMENT for table `grupo_dia`
+--
+ALTER TABLE `grupo_dia`
+  MODIFY `iddia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `grupo_torre`
 --
 ALTER TABLE `grupo_torre`
   MODIFY `idtorre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `log`
+-- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
   MODIFY `idLog` int(40) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `logregistros`
+-- AUTO_INCREMENT for table `logregistros`
 --
 ALTER TABLE `logregistros`
   MODIFY `idLog` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `oficinas`
+-- AUTO_INCREMENT for table `oficinas`
 --
 ALTER TABLE `oficinas`
   MODIFY `idOficina` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `personas`
+-- AUTO_INCREMENT for table `personas`
 --
 ALTER TABLE `personas`
   MODIFY `usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `transacciones`
+-- AUTO_INCREMENT for table `transacciones`
 --
 ALTER TABLE `transacciones`
   MODIFY `idtransaccion` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `idusuarios` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `visitantes`
+-- AUTO_INCREMENT for table `visitantes`
 --
 ALTER TABLE `visitantes`
   MODIFY `idvisitante` int(11) NOT NULL AUTO_INCREMENT;

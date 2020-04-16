@@ -154,6 +154,7 @@
                                    <div class="dropdown-content" >
                                    <a href="activarfuncionarios.php" >Roles Administradores</a>
                                   <a href="grupo_acceso.php">Crear Grupos de Acceso</a>
+                                  <a href="grupo_dia.php">Crear Grupos de Dias</a>
                                     ';// <a href="ofice.php" >Oficinas</a>
                                     echo'
                                    </li>
