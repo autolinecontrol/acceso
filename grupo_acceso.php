@@ -4,7 +4,6 @@ require 'conexion.php';
 require 'db.php';
 //ob_start();
 $validar=0;
-
 ob_start();
 session_start();
 if($_SESSION['logged_in']!== true)
@@ -57,20 +56,11 @@ else
         vertical-align:middle;
         cursor:pointer;
     }
-    
     </style>
 </head>
 <body>
     <div class="form">
     <?php
-    // if(!$activo)
-    // {
-    //     echo "<div class = 'alert alert-info'>
-    //     Tu cuenta fue creada! Te acabamos de enviar un correo, 
-    //     por favor confirma tu cuenta haciendo click en el link enviado, gracias.
-    //     </div>";
-    // }
-
     $sql="select * from grupo_acceso order by id";
     if(isset($_POST['crear']))
     {
@@ -146,19 +136,48 @@ else
     if(isset($_GET['traer']))
     {
         $idtraer=$_GET['id'];
-        $sql="SELECT * FROM grupo_acceso WHERE id =$id";
+        $sql="SELECT * FROM grupo_acceso WHERE id =$idtraer";
         $validar=1;
     }
     if(isset($_POST['actualizar']))
     {
-        $idcontroladora=$_POST['idcontroladora'];
+        $idactualizar=$_POST['idactualizar'];
+        $torre=$_POST['torre'];
+        $contador=0;
         $nombre=$_POST['nombre'];
-        $direccion=$_POST['direccion'];
-        $estado=$_POST['estado'];
-        $grupo=$_POST['grupo'];
-        $sqlactualizar="REPLACE INTO controladoras (idcontroladora,nombrecontroladora, direccionipcontroladora, estado, Grupo) 
-        VALUES ('$idcontroladora','$nombre','$direccion','$estado','$grupo')";
-        $resultadoactualizar = mysqli_query($con,$sqlactualizar);
+        $sqlinsertar="UPDATE grupo_acceso 
+        SET nombre='$nombre'";
+        if(isset($_POST['cbox5']))$sqlinsertar.=",p5='1'";
+        else $sqlinsertar.=",p5='0'";
+        if(isset($_POST['cbox6']))$sqlinsertar.=",p6='1'";
+        else $sqlinsertar.=",p6='0'";
+        if(isset($_POST['cbox7']))$sqlinsertar.=",p7='1'";
+        else $sqlinsertar.=",p7='0'";
+        if(isset($_POST['cbox8']))$sqlinsertar.=",p8='1'";
+        else $sqlinsertar.=",p8='0'";
+        if(isset($_POST['cbox9']))$sqlinsertar.=",p9='1'";
+        else $sqlinsertar.=",p9='0'";
+        if(isset($_POST['cbox10']))$sqlinsertar.=",p10='1'";
+        else $sqlinsertar.=",p10='0'";
+        if(isset($_POST['cbox11']))$sqlinsertar.=",p11='1'";
+        else $sqlinsertar.=",p11='0'";
+        if(isset($_POST['cbox12']))$sqlinsertar.=",p12='1'";
+        else $sqlinsertar.=",p12='0'";
+        if(isset($_POST['cbox14']))$sqlinsertar.=",p14='1'";
+        else $sqlinsertar.=",p14='0'";
+        if(isset($_POST['cbox15']))$sqlinsertar.=",p15='1'";
+        else $sqlinsertar.=",p15='0'";
+        if(isset($_POST['cboxsotanos']))$sqlinsertar.=",sotanos='1'";
+        else $sqlinsertar.=",sotanos='0'";
+        if(isset($_POST['cboxlooby']))$sqlinsertar.=",looby='1'";
+        else $sqlinsertar.=",looby='0'";
+        if(isset($_POST['cboxpv']))$sqlinsertar.=",pv='1'";
+        else $sqlinsertar.=",pv='0'";
+        if(isset($_POST['cboxpf']))$sqlinsertar.=",pf='1'";
+        else $sqlinsertar.=",pf='0'";
+        $sqlinsertar.=",torre='$torre' WHERE id='$idactualizar'";
+       //echo $sqlinsertar;
+        $resultadoinsert = mysqli_query($con,$sqlinsertar);
     }
     if(isset($_GET['borrar']))
     {
@@ -166,11 +185,10 @@ else
         $sqlborrar="DELETE FROM grupo_acceso WHERE id =$id";
         $resultadoborrar = mysqli_query($con,$sqlborrar);
     }  
+    //echo $sql;
     $resultado = mysqli_query($con,$sql);
     include'banner.php';
-    
     ?>           
-   
         <header class="header-two-bars">
         <div class="header-second-bar" style="text-align:center">       
             
@@ -233,18 +251,52 @@ else
                 {
                     while($fila = mysqli_fetch_assoc($resultado))
                     {
-                        $id=  $fila['idcontroladora'];
-                        $nombre= $fila['nombrecontroladora'];
-                        $direccion= $fila['direccionipcontroladora'];
-                        $estado= $fila['estado'];
-                        $grupo= $fila['Grupo'];
+                        $id=  $fila['id'];
+                        $nombre= $fila['nombre'];
+                        $p5=$fila['p5'];
+                        $p6=$fila['p6'];
+                        $p7=$fila['p7'];
+                        $p8=$fila['p8'];
+                        $p9=$fila['p9'];
+                        $p10=$fila['p10'];
+                        $p11=$fila['p11'];
+                        $p12=$fila['p12'];
+                        $p14=$fila['p14'];
+                        $p15=$fila['p15'];
+                        $sotanos=$fila['sotanos'];
+                        $looby=$fila['looby'];
+                        $pv=$fila['pv'];
+                        $pf=$fila['pf'];
+                        $torretraer=$fila['torre'];
                         echo "
                         <br>
-                        <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required><br><br>
-                        <select name='torre'>
-                            <option value='A' selected>Torre A</option> 
-                            <option value='B' >Torre B</option>
-                            <option value='C'>Torre A y B</option>
+                        <input type='hidden' name='idactualizar' value='$id' ><br><br>
+                        <input type='text' name='nombre'  placeholder='Nombre Grupo Acceso' required value='$nombre'><br><br>
+                        
+                        <select name='torre'>";
+                        
+                        if($torretraer=='1'){
+                            echo"<option value='1' selected>Torre A</option>";
+                        }
+                        else
+                        {
+                            echo "<option value='1'>Torre A</option>";
+                        }
+                        if($torretraer=='2'){
+                            echo"<option value='2' selected>Torre B</option>";
+                        }
+                        else
+                        {
+                            echo "<option value='2'>Torre B</option>";
+                        }
+                        if($torretraer=='3'){
+                            echo"<option value='3' selected>Torre A y B</option>";
+                        }
+                        else
+                        {
+                            echo "<option value='3'>Torre A y B</option>";
+                        }
+                        echo "    
                         </select>
                         <br><br>                   
                         <br>
@@ -265,39 +317,63 @@ else
                             <th>Parqueadero Visitantes</th>
                             <th>Parqueadero Funcionarios</th>
                         </tr>
-                        <tr>
-                            <td><input type='checkbox' name='cbox5' value='5'></td>
-                            <td><input type='checkbox' name='cbox6' value='6'></td>
-                            <td><input type='checkbox' name='cbox7' value='7'></td>
-                            <td><input type='checkbox' name='cbox8' value='8'></td>
-                            <td><input type='checkbox' name='cbox9' value='9'></td>
-                            <td><input type='checkbox' name='cbox10' value='10'></td>
-                            <td><input type='checkbox' name='cbox11' value='11'></td>
-                            <td><input type='checkbox' name='cbox12' value='12'></td>
-                            <td><input type='checkbox' name='cbox14' value='14'></td>
-                            <td><input type='checkbox' name='cbox15' value='15'></td>
-                            <td><input type='checkbox' name='cboxsotanos' value='sotanos'></td>
-                            <td><input type='checkbox' name='cboxlooby' value='looby'></td>
-                            <td><input type='checkbox' name='cboxpv' value='pv'></td>
-                            <td><input type='checkbox' name='cboxpf' value='pf'></td>
+                        <tr>";
+                        echo"<td><input type='checkbox' name='cbox5' value='5'";
+                        if($p5==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox6' value='6'";
+                        if($p6==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox7' value='7'";
+                        if($p7==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox8' value='8'";
+                        if($p8==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox9' value='9'";
+                        if($p9==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox10' value='10'";
+                        if($p10==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox11' value='11'";
+                        if($p11==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox12' value='12'";
+                        if($p12==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox14' value='14'";
+                        if($p14==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cbox15' value='15'";
+                        if($p15==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cboxsotanos' value='sotanos'";
+                        if($sotanos==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cboxlooby' value='looby'";
+                        if($looby==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cboxpv' value='pv'";
+                        if($pv==1)echo "checked";
+                        echo "></td>";
+                        echo"<td><input type='checkbox' name='cboxpf' value='pf'";
+                        if($pf==1)echo "checked";
+                        echo "></td>";echo "
                         </tr>
                         </table>
                         <br>
-                        <input type='submit' name='crear' class='btn btn-success' value='Guardar'>
+                        <input type='submit' name='actualizar' class='btn btn-success' value='Guardar'>
                         <br><br><br>"; 
                     }  
                 }
-                   
          echo "</div>
-
     </header>";
     ?>
     <?php
     if($validar==0)
     {
-    ?>
-    
-    <div class = "container">
+    ?> 
         <table class = "table table-striped table-bordered">
         <tr>
             <th>Id</th>
@@ -379,7 +455,7 @@ else
                 }
                 if($fila['sotanos']==1)
                 {
-                    echo "<td>Sotanos</td>";
+                    echo "<td>Sot.</td>";
                 }else{
                     $mostrador++;
                 }
@@ -391,13 +467,13 @@ else
                 }
                 if($fila['pv']==1)
                 {
-                    echo "<td>Parqueadero Visitantes</td>";
+                    echo "<td>Parq. Visi.</td>";
                 }else{
                     $mostrador++;
                 }
                 if($fila['pf']==1)
                 {
-                    echo "<td>Parqueadero Funcionarios</td>";
+                    echo "<td>Parq. Func.</td>";
                 }else{
                     $mostrador++;
                 }
@@ -408,36 +484,11 @@ else
                 if($torremostrar=='3')
                 $torremostrar='A y B';
                 echo "<td>$torremostrar</td>";
-                
-
-                // }
-                // for($k=0;$k<$mostrador;$k++){
-                //     echo "<td></td>";
-                // }
-                
                 echo "<td><a class='btn btn-success' href='grupo_acceso.php?traer=1&id=$id'>Editar</a></td>";
                 echo "<td><a class='btn btn-danger' href='grupo_acceso.php?borrar=1&id=$id'>Borrar</a></td>";
 
             }
-    }
-    //     echo "<th>Algo</th>";
-    //     while($fila = mysqli_fetch_assoc($resultado))
-    //     {
-    //         echo '<tr>';
-    //         $id= $fila['idcontroladora'];
-    //         echo '<td>' . $fila['idcontroladora'] . '</td>';
-    //         echo '<td>' . $fila['nombrecontroladora'] . '</td>';
-    //         echo '<td>' . $fila['direccionipcontroladora'] . '</td>';
-    //         echo '<td>' . $fila['estado'] . '</td>';
-    //         echo '<td>' . $fila['Grupo'] . '</td>';
-    //         echo "<input type='hidden' name='idcontroladora' value='$id'>";
-            
-    //         echo "<td><a class='btn btn-success' href='controladoras.php?traer=1&idcontroladora=$id'>Actualizar</a></td>";
-    //         echo "<td><a class='btn btn-danger' href='controladoras.php?borrar=1&idcontroladora=$id'>Borrar</a></td>";
-    //     }
-    //     mysqli_close($con);
-    //     echo "</table>"; 
-        // }   
+    }   
     ?> 
         
     </form>
