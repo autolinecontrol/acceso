@@ -1,6 +1,4 @@
 <?php
-error_reporting(0);
-ob_start();
 session_start();
 $dir = 'temp/';
 use PHPMailer\PHPMailer\PHPMailer;
@@ -14,68 +12,63 @@ $nombrevisitante = "";
 if(!file_exists($dir)){
     mkdir($dir);
 }
-if($_SESSION['logged_in']!== true){
-    header("Location: index.php");
-    exit();
-}else
-{  
-    $nombreadmin  = $_SESSION['nombre'];
-    $documentoadmin = $_GET['documento'];   
-    $usuario   = $_GET['iden'];
-    $nombres   = $_GET['nombres'];
-    $correo    = $_GET['correo'];
-    $ingreso   = $_GET['ingreso'];
-    $salida    = $_GET['salida'];
-    $tipo      = $_GET['tipo'];
-    $carro     = $_GET['carro'];
-    $ofice     = $_GET['ofice'];
-    $grupo     = $_GET['grupo'];
-    $tipovehiculo =$_GET['tipov'];
-    $nombre  = $_SESSION['nombre'];
-    $oficina = $_SESSION['oficina'];
-    $email   = $_SESSION['email'];   
-    $accion="REGISTRADO";
-    echo "este es el tipo".$tipo;
-    echo '<h2>'.'Anfitrion: '.$nombre.'</br>'.$oficina.'</h2>';  
-    if($salida<$ingreso)
-    {     
-        echo "<script type=\"text/javascript\">
-        alert('La fecha final es menor a la fecha inicial');
-        history.go(-1);
-        </script>";
-        exit;      
-    }
-    else
-    {
-        //Aqui asignamos los grupos de acceso de acuerdo al tipo de usuario
-        if ($tipo == 'VISITANTE')
-        {
-            if($grupo== '')$grupo = 1;
-            $fechamax= date("Y-m-d",strtotime($ingreso."+ 16 days"));
-        }
-        if ($tipo == 'CONTRATISTA')
-        {
-	        if($grupo=='')$grupo = 3;
-            $fechamax= date("Y-m-d",strtotime($ingreso."+ 91 days"));
-        }
-        if ($tipo == 'FUNCIONARIO')
-        {
-	        if($grupo=='')$grupo = 2;
-            $fechamax= date("Y-m-d",strtotime($ingreso."+ 367 days"));
-        } 
-        echo "Tipo".$tipo;
-        echo "Salida".$salida;
-        echo "fecha maxima".$fechamax;
-        if ($salida>$fechamax) {
-            echo "<script type=\"text/javascript\">
-            alert('La fecha final no esta en el rango permitido');
-            history.go(-1);
-            </script>";
-            exit;
-        }
-        
-    }
+var_dump($_GET);
+
+//_____________________________________________RECIBIMOS LAS VARIABLES Y ASIGNAMOS____________________________  
+
+$nombreadmin    = $_SESSION['nombre'];
+$documentoadmin = $_GET['documento'];   
+$identificacion = $_GET['iden'];
+$nombres        = $_GET['nombres'];
+$correo         = $_GET['correo'];
+$ingreso        = $_GET['ingreso'];
+$salida         = $_GET['salida'];
+$tipo           = $_GET['tipo'];
+$carro          = $_GET['carro'];
+$oficina        = $_GET['ofice'];
+$grupoacceso    = $_GET['grupoacceso'];
+$grupohorario   = $_GET['grupohorario'];
+$grupodias      = $_GET['grupodias'];
+$tipovehiculo   = $_GET['tipov'];
+$nombre         = $_SESSION['nombre'];
+$accion         = "REGISTRADO";
+$cont           = 1;
+$stat           = 'N';
+if($carro=="NO")$tipovehiculo="NO";
+
+//_______________________________________VALIDACION DE FECHA SALIDA VS FECHA INGRESO____________________
+
+if($salida<$ingreso)
+{     
+    echo "<script type=\"text/javascript\">
+    alert('La fecha final es menor a la fecha inicial');
+    history.go(-1);
+    </script>";
+    exit;      
 }
+
+//_______________________________________ASIGNACION DE FECHAS MAXIMAS_____________________________________
+
+if ($tipo == 'VISITANTE')
+$fechamax= date("Y-m-d",strtotime($ingreso."+ 16 days"));
+if($tipo == 'CONTRATISTA')
+$fechamax= date("Y-m-d",strtotime($ingreso."+ 91 days"));
+if ($tipo == 'FUNCIONARIO')
+$fechamax= date("Y-m-d",strtotime($ingreso."+ 367 days"));
+
+//_______________________________________COMPARACION FECHA DE SALIDA CON FECHA MAXIMA_____________________
+
+if ($salida>$fechamax) 
+{
+    echo "<script type=\"text/javascript\">
+    alert('La fecha final no esta en el rango permitido');
+    history.go(-1);
+    </script>";
+    exit;
+}
+
+//_____________________________________SE CREA LA FUNCION COMBROBAR NOMBRE_________________________________
+
 function comprobarn($nombre)
 { 
     //compruebo que el tamaño del string sea válido. 
@@ -98,258 +91,440 @@ function comprobarn($nombre)
     return true;
 }
 $validan = comprobarn($nombres);  
-echo $validan;
-if($validan>0)
-{      
-}
-else
-{
+//________________________________________________SE VALIDA EL NOMBRE__________________________________
+if(!$validan>0)
+{   
     unset($_SESSION['logged_in']);
     $_SESSION['message']= 'El nombre registrado no pude contener tildes (´), ni (ñ), ni puntos Gracias, Vuelve a Inicar Sesión ';
     header("Location: error.php");
-    exit();
+    exit();   
 }
-//Validamos que la variable caarro haya llegado y si no llego le damos un valor negativo
-if(!isset($_GET['carro']))$carro="NO";
-//Si carro tiene valor no entonces tipovehiculo tambien valdra no
-if($carro=="NO")$tipovehiculo="NO";
-//exit;
-$cont=1;
-//Insertar en el log
-$sqllog="insert INTO logregistros(idLog,Administrador,idVisitante,idAutoriza,Oficina,Fechainicio,Fechafin,Tipo,Accion,Vehiculo,Tipovehiculo,Correo) VALUES (NULL,  '$nombreadmin', '$usuario','$documentoadmin','$ofice','$ingreso','$salida','$tipo','$accion','$carro','$tipovehiculo','$correo')";
-echo "<b>".$sqllog."</b>"."<br>";//exit;
-$resultado = mysqli_query($con,$sqllog);
-$stat = 'N';
-//------------Insertar en visitantes--------------
-$sqlvisi="replace INTO visitantes(idvisitante,nombre,identificacion,Oficina,correo,Ingreso,Salida,estado,ncontroladora,tipo,vehiculo,Tipovehiculo,grupo) VALUES (NULL,  '$nombres', '$usuario','$ofice','$correo','$ingreso','$salida','$stat','$cont','$tipo','$carro','$tipovehiculo','$grupo')";
-$resultado = mysqli_query($con,$sqlvisi);
-echo "<b>".$sqlvisi."</b>"."<br>"; //exit;
-//Contamos cuantas controladoras hay en el sistema
-$numerocontroladoras=0;
-$sqlcontarcontroladoras="SELECT COUNT(*) AS C FROM controladoras";
-$resultcontarcontroladoras=mysqli_query($con,$sqlcontarcontroladoras); 
-while($fila = mysqli_fetch_assoc($resultcontarcontroladoras))
-{
-    $numerocontroladoras=$fila['C'];
-} 
-$result = $mysqli->query("SELECT * FROM funcionarios WHERE email = '$email'");
-$sqlmostraroficina="Select idcontroladora,Grupo from controladoras ";
-$resultadooficina = mysqli_query($con,$sqlmostraroficina);                               
-while($fila = mysqli_fetch_assoc($resultadooficina))
-{
-    $matriz[$fila['idcontroladora']]=$fila['Grupo'];
-	//$grupocontroladora=$fila['Grupo'];
-	//$idcontroladora=$fila['idcontroladora'];
-	//echo $idcontroladora.'-'.$grupocontroladora.'<br>';
-} 
-//exit;
-if($result-> num_rows === 0)
-{
-    unset($_SESSION['logged_in']);
-    $_SESSION['message']= 'Debes iniciar sesion antes de ver tu pagina de Perfil!';
-    header("Location: error.php");
-    exit();
-}
-else
-{         
-    $codigo = rand(1000, 9999);         
-    $cont='1';//Aqui voy
-    echo 'usuario para registrar '.$usuario; 
-    $consulta = "SELECT COUNT(*) FROM usuarios where identificacion = '$usuario' ";
-    if ($resultado = $mysqli->query($consulta)) 
-    {
-        $fila = $resultado->fetch_row();     
-        $numerous = $fila[0];
-        printf(" us %d\n", $numerous);
-        echo '<br>';  
-        /* liberar el conjunto de resultados */
-        $resultado->close();
-    }
-    if($numerous > 0)
-    {
-        echo 'ya existe';    
-        $perfiltiempo = 1;
-        $dias = 7;            
-        //for($i=1;$i<=$numerocontroladoras;$i++)    
-        //{   
-         $sql = "delete from usuarios WHERE identificacion='$usuario'";
-        if (mysqli_query($mysqli, $sql)) 
-         {
-             echo "Record updated successfully";
-         } 
-        else 
-        {
-            echo "Error updating record: " . mysqli_error($mysqli);
-        }
-    }
-    //Insertar datos por grupo
-    echo 'GRUPO '.$grupo;
-    //exit;
-    //Creamos la funcion insert de usuarios
-    function insertaru ($con,$usuario, $ingreso,$salida,$i,$stat,$carro,$ofice,$grupo,	$perfiltiempo,$dias,$tipovehiculo)
-    {
-        $perfiltiempo=1;
-        $dias=7;
-        echo "la controladora es igual a ".$i." y el grupo es igual a ".$grupo."<br>"; 
-        echo 'dato '.$g.'-'.$matriz[$k].'<br>';
-        $sqlinsertarusuarios="insert INTO usuarios 
-        (idusuarios,identificacion,fechainicio,fechafin,ncontroladora
-        ,estado,vehiculo,oficina,grupo) 
-        VALUES (NULL, '$usuario', '$ingreso','$salida','$i'
-        ,'$stat','$carro','$ofice','$grupo')";
-        echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
-        $resultado1 = mysqli_query($con,$sqlinsertarusuarios);     
-    }
-$validainsert=0;
-echo "<b>".$grupo."</b>"."<br>";
-switch ($grupo) 
-{  
-    case 1:
-    {
-        echo "<b>Numero Controladoras".$numerocontroladoras."</b>"."<br>";
-        for($i=1;$i<=$numerocontroladoras;$i++)    
-        {   
-            echo 'dato'.$grupo.'-'.$matriz[$i].'<br>';
-            if($matriz[$i]==1)
-            {
-                $grupo=1;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==10)
-            {
-                $grupo=10;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==11)
-            {
-                $grupo=11;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-        }
-    }
-    break;
-    case 2:
-    {
-        for($i=1;$i<=$numerocontroladoras;$i++)    
-        {           
-            if($matriz[$i]==1)
-            {
-                $grupo=1;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==2)
-            {
-                $grupo=2;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-            
-            if($matriz[$i]==10)
-            {
-                $grupo=10;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==11)
-            {
-                $grupo=11;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-        }
-    }
-    break;
-    case 3:
-    {
-        for($i=1;$i<=$numerocontroladoras;$i++)    
-        {           
-            if($matriz[$i]==1)
-            {
-                $grupo=1;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-    		    ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-    		    $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==2)
-            {
-                $grupo=2;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-    		    ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-    		    $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==3)
-            {
-                $grupo=3;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-    		    ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-    		    $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==10)
-            {
-                $grupo=10;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==11)
-            {
-                $grupo=11;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-                ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-                $tipovehiculo);           
-                echo $validainsert;
-            }
-        }
-    }
-    break;
-    case 4:
-    {
-        for($i=1;$i<=$numerocontroladoras;$i++)    
-        {           
-            if($matriz[$i]==3)
-            {
-                $grupo=3;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-    		    ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-    		    $tipovehiculo);           
-                echo $validainsert;
-            }
-            if($matriz[$i]==4)
-            {
-                $grupo=4;
-                $validainsert=insertaru($con,$usuario, $ingreso,$salida,$i
-    		    ,$stat,$carro,$ofice,$grupo,$perfiltiempo,$dias,
-    		    $tipovehiculo);           
-                echo $validainsert;
-            }
-        }
-    }
-    break;
-    mysqli_close($conn);             
-}   
 
+//_______________________________________________INSERTAR EN LOG REGISTROS_________________________________
+
+$sqllog="INSERT INTO logregistros (idLog,Administrador,idVisitante,idAutoriza,Oficina,Fechainicio
+,Fechafin,Tipo,Accion,Vehiculo,Tipovehiculo,Correo,grupohorario,grupoacceso,grupodias) VALUES (NULL,  '$nombreadmin', '$identificacion'
+,'$documentoadmin','$oficina','$ingreso','$salida','$tipo','$accion','$carro','$tipovehiculo','$correo'
+,'$grupohorario','$grupoacceso','$grupodias')";
+//echo "<b>".$sqllog."</b>"."<br>";//exit;
+$resultadolog = mysqli_query($con,$sqllog);
+
+//____________________________________________INSERTAR EN VISITANTES______________________________________
+
+$sqlvisi="REPLACE INTO visitantes (idvisitante,nombre,identificacion,Oficina,correo,Ingreso
+,Salida,estado,ncontroladora,tipo,vehiculo,Tipovehiculo,grupoacceso,grupohorario,grupodias) 
+VALUES (NULL,  '$nombres','$identificacion','$oficina','$correo','$ingreso','$salida','$stat',
+'$cont','$tipo','$carro','$tipovehiculo','$grupoacceso','$grupohorario','$grupodias')";
+$resultadovisi = mysqli_query($con,$sqlvisi);
+//echo "<b>".$sqlvisi."</b>"."<br>"; 
+
+//____________________________________________FUNCION INSERTAR USUARIOS______________________________________
+
+function insertaru ($con,$identificacion, $ingreso,$salida,$id
+,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+$tipovehiculo)
+{
+    $sqlinsertarusuarios="INSERT INTO usuarios 
+    (idusuarios,identificacion,fechainicio,fechafin,ncontroladora
+    ,estado,vehiculo,oficina,grupohorario,grupodias,torre,tipovehiculo) 
+    VALUES (NULL, '$identificacion', '$ingreso','$salida','$id'
+    ,'$stat','$carro','$oficina','$grupodias','$grupohorario','$torre','$tipovehiculo')";
+    echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
+    $resultado1 = mysqli_query($con,$sqlinsertarusuarios);     
+}
+
+//____________________________________________TRAER DATOS DE GRUPO ACCESO________________________________________
+
+$sqltraergrupo="SELECT * FROM grupo_acceso WHERE id='$grupoacceso'";
+$resultadogrupoa = mysqli_query($con,$sqltraergrupo);
+$torre="";
+$p5=0;
+$p6=0;
+$p7=0;
+$p8=0;
+$p9=0;
+$p10=0;
+$p11=0;
+$p12=0;
+$p14=0;
+$p15=0;
+$sotanos=0;
+$looby=0;
+$pv=0;
+$pf=0;
+while($fila = mysqli_fetch_assoc($resultadogrupoa))
+{
+    $torre=$fila['torre'];
+    if($fila['p5']==1)$p5=1;
+    if($fila['p6']==1)$p6=1;
+    if($fila['p7']==1)$p7=1;
+    if($fila['p8']==1)$p8=1;
+    if($fila['p9']==1)$p9=1;
+    if($fila['p10']==1)$p10=1;
+    if($fila['p11']==1)$p11=1;
+    if($fila['p12']==1)$p12=1;
+    if($fila['p14']==1)$p14=1;
+    if($fila['p15']==1)$p15=1;
+    if($fila['sotanos']==1)$sotanos=1;
+    if($fila['looby']==1)$looby=1;
+    if($fila['pv']==1)$pv=1;
+    if($fila['pf']==1)$pf=1;
+}
+
+//_____________________________________BORRAMOS REGISTROS ANTERIORES____________________________________
+
+$sqlborrar = "DELETE FROM usuarios WHERE identificacion='$identificacion'";
+$resultadoborrar = mysqli_query($con,$sqlborrar);
+
+//_____________________________________RECORRER CADA GRUPO DE CONTRALODARAS_______________________________
+$contador=0;
+
+if($p5==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =5";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p6==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo= 6";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p7==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =7";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p8==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =8";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p9==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =9";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p10==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =10";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p11==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =11";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p12==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =12";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p14==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =14";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+
+if($p15==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =15";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+if($sotanos==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =1";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+if($looby==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =4";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+if($pv==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =2";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+if($pf==1)
+{
+    $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =3";
+    $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    while($fila = mysqli_fetch_assoc($resultadocontroladoras))
+    {
+        if($torre==3)
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+        if($torre==$fila['Torre'])
+        {
+            $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
+            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            $tipovehiculo);
+            $contador++;           
+            echo $validainsert;
+        }
+    }
+}
+//_______________________________________________ENVIAR CORREOS__________________________________
 function enviarcorreos($correovisitante,$identificacion,$nombrevisitante,$con)
 {       
    
@@ -362,18 +537,18 @@ function enviarcorreos($correovisitante,$identificacion,$nombrevisitante,$con)
     $contenido = $identificacion;
     QRcode::png($contenido, $filename, $level, $tamanio, $framesize);
     echo '<img src="'.$filename.'" text/>';          
-    $_SESSION['message']= 'Ingreso a la UGC <strong>'.$correovisitante.'</strong>'
+    $_SESSION['message']= 'Ingreso al edificio Teleport <strong>'.$correovisitante.'</strong>'
     .' Instrucciones para el uso del sistema de Control de  Acceso! ';       
-    $para_usuario = $correovisitante;$subject = 'Descubre la Nueva Forma de Ingresar a tu Universidad';
+    $para_usuario = $correovisitante;$subject = 'Descubre la Nueva Forma de Ingresar al Edificio Teleport';
     $message_body = 'Estimado/a. ' .$nombrevisitante.',
     <BR>
-    Bienvenido a la Universidad La Gran Colombia.<br>
+    Bienvenido al Edificio Teleport.<br>
     A continuación encontrarás los pasos que te permitirán descargar tu código QR, 
-    con el que podrás ingresar a las instalaciones de la Universidad.
-    <br><br>Disponible en la manzana central, Próximamente estará disponible en los demás edificios.<br>
-Paso 1 Descarga la Imagen de Codigo QR<br>
-Paso 2 Aumenta el brillo de tu Celular<br>
-Paso 3 Presenta la Imagen en el lector QR 
+    con el que podrás ingresar a las instalaciones del edificio.
+    <br>
+    Paso 1 Descarga la Imagen de Codigo QR<br>
+    Paso 2 Aumenta el brillo de tu Celular<br>
+    Paso 3 Presenta la Imagen en el lector QR 
     ';
     echo $para_usuario,$subject."<br>";
     sendEmail($para_usuario, $subject, $message_body, $con,$id);
@@ -394,12 +569,12 @@ function sendEmail($para_usuario, $subject, $message_body,$con,$id)
                 $mail->isSMTP();                                      // Set mailer to use SMTP
                 $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
                 $mail->SMTPAuth = true;                               // Enable SMTP authentication  
-                $mail->Username = 'carne.virtual@ugc.edu.co';                 // SMTP username
-                $mail->Password = 'Acceso2020*';                           // SMTP password
+                $mail->Username = 'teleportacceso@gmail.com';                 // SMTP username
+                $mail->Password = 'Acceso2020';                           // SMTP password
                 $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
                 $mail->Port = 587;                                    // TCP port to connect to
                 //Recipients
-                $mail->setFrom('carne.virtual@ugc.edu.co', 'Control de Acceso Universidad Gran Colombia');
+                $mail->setFrom('teleportacceso@gmail.com', 'Control de Acceso Edificio Teleport');
                 $mail->addAddress($para_usuario);     // Add a recipient
 
                 //Attachments
@@ -420,11 +595,7 @@ function sendEmail($para_usuario, $subject, $message_body,$con,$id)
     }
 }
 
-enviarcorreos($correo,$usuario,$nombres,$conn);
-echo "Fuera de las funciones";
-exit;    
- }
-
+enviarcorreos($correo,$identificacion,$nombres,$conn);
 ?>
 <!DOCTYPE html>
 <html>

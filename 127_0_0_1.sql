@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 16, 2020 at 05:57 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 18-04-2020 a las 15:53:16
+-- Versión del servidor: 10.4.11-MariaDB
+-- Versión de PHP: 7.3.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `autoline2020_teleport`
+-- Base de datos: `autoline2020_teleport`
 --
 CREATE DATABASE IF NOT EXISTS `autoline2020_teleport` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `autoline2020_teleport`;
@@ -26,7 +26,7 @@ USE `autoline2020_teleport`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `controladoras`
+-- Estructura de tabla para la tabla `controladoras`
 --
 
 CREATE TABLE `controladoras` (
@@ -34,17 +34,23 @@ CREATE TABLE `controladoras` (
   `nombrecontroladora` varchar(20) DEFAULT NULL,
   `direccionipcontroladora` varchar(20) DEFAULT NULL,
   `estado` varchar(10) NOT NULL DEFAULT 'N',
-  `Grupoacceso` varchar(3) NOT NULL DEFAULT '1',
-  `Grupohorario` varchar(3) NOT NULL DEFAULT '1',
-  `Grupodias` varchar(3) NOT NULL DEFAULT '1',
-  `Torre` varchar(3) NOT NULL DEFAULT '1',
+  `grupo` tinyint(3) NOT NULL DEFAULT 1,
+  `Torre` tinyint(2) NOT NULL DEFAULT 1,
   `AP` enum('SI','NO') NOT NULL DEFAULT 'NO'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `controladoras`
+--
+
+INSERT INTO `controladoras` (`idcontroladora`, `nombrecontroladora`, `direccionipcontroladora`, `estado`, `grupo`, `Torre`, `AP`) VALUES
+(1, 'entrada p5', '192.168.100.1', 'N', 5, 1, 'NO'),
+(2, 'entrada p5', '192.168.100.2', 'N', 5, 2, 'NO');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fotos`
+-- Estructura de tabla para la tabla `fotos`
 --
 
 CREATE TABLE `fotos` (
@@ -55,7 +61,7 @@ CREATE TABLE `fotos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `funcionarios`
+-- Estructura de tabla para la tabla `funcionarios`
 --
 
 CREATE TABLE `funcionarios` (
@@ -71,7 +77,7 @@ CREATE TABLE `funcionarios` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `funcionarios`
+-- Volcado de datos para la tabla `funcionarios`
 --
 
 INSERT INTO `funcionarios` (`id`, `Identificacion`, `nombre`, `oficina`, `email`, `password`, `hash`, `activo`, `perfil`) VALUES
@@ -81,7 +87,7 @@ INSERT INTO `funcionarios` (`id`, `Identificacion`, `nombre`, `oficina`, `email`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `grupo_acceso`
+-- Estructura de tabla para la tabla `grupo_acceso`
 --
 
 CREATE TABLE `grupo_acceso` (
@@ -105,7 +111,7 @@ CREATE TABLE `grupo_acceso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `grupo_acceso`
+-- Volcado de datos para la tabla `grupo_acceso`
 --
 
 INSERT INTO `grupo_acceso` (`id`, `nombre`, `p5`, `p6`, `p7`, `p8`, `p9`, `p10`, `p11`, `p12`, `p14`, `p15`, `sotanos`, `looby`, `pv`, `pf`, `torre`) VALUES
@@ -114,7 +120,7 @@ INSERT INTO `grupo_acceso` (`id`, `nombre`, `p5`, `p6`, `p7`, `p8`, `p9`, `p10`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `grupo_dia`
+-- Estructura de tabla para la tabla `grupo_dia`
 --
 
 CREATE TABLE `grupo_dia` (
@@ -129,23 +135,37 @@ CREATE TABLE `grupo_dia` (
   `Domingo` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `grupo_dia`
+--
+
+INSERT INTO `grupo_dia` (`iddia`, `numero`, `Lunes`, `Martes`, `Miercoles`, `Jueves`, `Viernes`, `Sabado`, `Domingo`) VALUES
+(1, 5, 1, 1, 1, 1, 1, 0, 0);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `grupo_horario`
+-- Estructura de tabla para la tabla `grupo_horario`
 --
 
 CREATE TABLE `grupo_horario` (
   `idhorario` int(11) NOT NULL,
   `nombre` varchar(10) NOT NULL,
-  `horainicio` datetime NOT NULL,
-  `horafin` datetime NOT NULL
+  `horainicio` time NOT NULL,
+  `horafin` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `grupo_horario`
+--
+
+INSERT INTO `grupo_horario` (`idhorario`, `nombre`, `horainicio`, `horafin`) VALUES
+(1, '8 a 5', '08:00:00', '05:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `grupo_torre`
+-- Estructura de tabla para la tabla `grupo_torre`
 --
 
 CREATE TABLE `grupo_torre` (
@@ -154,7 +174,7 @@ CREATE TABLE `grupo_torre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `grupo_torre`
+-- Volcado de datos para la tabla `grupo_torre`
 --
 
 INSERT INTO `grupo_torre` (`idtorre`, `nombre`) VALUES
@@ -164,7 +184,7 @@ INSERT INTO `grupo_torre` (`idtorre`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `log`
+-- Estructura de tabla para la tabla `log`
 --
 
 CREATE TABLE `log` (
@@ -180,7 +200,7 @@ CREATE TABLE `log` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logregistros`
+-- Estructura de tabla para la tabla `logregistros`
 --
 
 CREATE TABLE `logregistros` (
@@ -196,13 +216,42 @@ CREATE TABLE `logregistros` (
   `Accion` varchar(15) NOT NULL,
   `Vehiculo` varchar(10) NOT NULL,
   `Tipovehiculo` varchar(30) DEFAULT NULL,
-  `Correo` varchar(30) NOT NULL
+  `Correo` varchar(30) NOT NULL,
+  `grupoacceso` varchar(4) NOT NULL,
+  `grupohorario` varchar(4) NOT NULL,
+  `grupodias` varchar(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `logregistros`
+--
+
+INSERT INTO `logregistros` (`idLog`, `Administrador`, `idVisitante`, `idAutoriza`, `Oficina`, `Fechahora`, `Fechainicio`, `Fechafin`, `Tipo`, `Accion`, `Vehiculo`, `Tipovehiculo`, `Correo`, `grupoacceso`, `grupohorario`, `grupodias`) VALUES
+(1, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 20:20:22', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(2, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 20:22:50', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(3, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 20:27:44', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(4, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 20:28:17', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(5, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 20:28:40', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(6, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 21:16:01', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(7, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 21:26:01', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(8, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 21:26:21', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(9, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 21:27:25', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(10, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 21:31:21', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(11, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 22:17:10', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(12, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-17 23:32:53', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(13, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 12:49:42', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(14, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 12:50:26', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(15, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 12:50:41', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(16, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 12:51:15', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(17, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 12:54:10', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(18, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 13:07:08', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(19, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 13:38:27', '2020-04-17 06:00:00.000000', '2020-04-17 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'SI', 'MOTO', 'correo@gmail.com', '1', '1', '1'),
+(20, 'David Cabezas', 1013672652, 1013672652, '1', '2020-04-18 13:41:18', '2020-04-18 06:00:00.000000', '2021-04-18 23:00:00.000000', 'FUNCIONARIO', 'REGISTRADO', 'NO', 'NO', 'dlcabezas2@gmail.com', '1', '1', '1');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oficinas`
+-- Estructura de tabla para la tabla `oficinas`
 --
 
 CREATE TABLE `oficinas` (
@@ -216,10 +265,17 @@ CREATE TABLE `oficinas` (
   `CupoActualMotos` varchar(3) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `oficinas`
+--
+
+INSERT INTO `oficinas` (`idOficina`, `Nombre`, `Ubicacion`, `Numero`, `Cupocarros`, `Cupoactualcarros`, `CupoMotos`, `CupoActualMotos`) VALUES
+(1, 'Recepcion', '1', '1', '50', '50', '50', '50');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `parqueadero`
+-- Estructura de tabla para la tabla `parqueadero`
 --
 
 CREATE TABLE `parqueadero` (
@@ -232,7 +288,7 @@ CREATE TABLE `parqueadero` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `personas`
+-- Estructura de tabla para la tabla `personas`
 --
 
 CREATE TABLE `personas` (
@@ -244,7 +300,7 @@ CREATE TABLE `personas` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pingreso`
+-- Estructura de tabla para la tabla `pingreso`
 --
 
 CREATE TABLE `pingreso` (
@@ -255,7 +311,7 @@ CREATE TABLE `pingreso` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `psalida`
+-- Estructura de tabla para la tabla `psalida`
 --
 
 CREATE TABLE `psalida` (
@@ -266,7 +322,7 @@ CREATE TABLE `psalida` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transacciones`
+-- Estructura de tabla para la tabla `transacciones`
 --
 
 CREATE TABLE `transacciones` (
@@ -282,7 +338,7 @@ CREATE TABLE `transacciones` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuarios`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -294,17 +350,24 @@ CREATE TABLE `usuarios` (
   `estado` varchar(1) NOT NULL,
   `vehiculo` varchar(2) NOT NULL,
   `oficina` varchar(10) NOT NULL,
-  `grupoacceso` varchar(2) NOT NULL,
   `grupohorario` varchar(5) NOT NULL,
   `grupodias` varchar(5) NOT NULL DEFAULT '',
   `torre` varchar(5) NOT NULL DEFAULT 'CARRO',
   `tipovehiculo` varchar(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`idusuarios`, `identificacion`, `fechainicio`, `fechafin`, `ncontroladora`, `estado`, `vehiculo`, `oficina`, `grupohorario`, `grupodias`, `torre`, `tipovehiculo`) VALUES
+(2, 1013672652, '2020-04-18 06:00:00', '2021-04-18 23:00:00', '1', 'N', 'NO', '1', '1', '1', '1', 'NO'),
+(3, 1013672652, '2020-04-18 06:00:00', '2021-04-18 23:00:00', '2', 'N', 'NO', '1', '1', '1', '2', 'NO');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `visitantes`
+-- Estructura de tabla para la tabla `visitantes`
 --
 
 CREATE TABLE `visitantes` (
@@ -321,192 +384,211 @@ CREATE TABLE `visitantes` (
   `tipo` varchar(12) DEFAULT 'VISITANTE',
   `vehiculo` varchar(2) CHARACTER SET utf8 DEFAULT 'NO',
   `Tipovehiculo` varchar(30) DEFAULT NULL,
-  `grupo` varchar(2) NOT NULL DEFAULT '1',
+  `grupoacceso` varchar(2) NOT NULL DEFAULT '1',
   `grupohorario` varchar(3) NOT NULL,
-  `grupodias` varchar(3) NOT NULL,
-  `torre` varchar(3) NOT NULL
+  `grupodias` varchar(3) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Indexes for dumped tables
+-- Volcado de datos para la tabla `visitantes`
+--
+
+INSERT INTO `visitantes` (`idvisitante`, `nombre`, `identificacion`, `codigo`, `Oficina`, `correo`, `Ingreso`, `Salida`, `ncontroladora`, `estado`, `tipo`, `vehiculo`, `Tipovehiculo`, `grupoacceso`, `grupohorario`, `grupodias`) VALUES
+(17, 'David Leonardo ', '1013672652', NULL, '1', 'dlcabezas2@gmail.com', '2020-04-18 06:00:00', '2021-04-18 23:00:00', '1', 'N', 'FUNCIONARIO', 'NO', 'NO', '1', '1', '1');
+
+--
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `controladoras`
+-- Indices de la tabla `controladoras`
 --
 ALTER TABLE `controladoras`
-  ADD PRIMARY KEY (`idcontroladora`);
+  ADD PRIMARY KEY (`idcontroladora`),
+  ADD KEY `grupo` (`grupo`);
 
 --
--- Indexes for table `fotos`
+-- Indices de la tabla `fotos`
 --
 ALTER TABLE `fotos`
   ADD PRIMARY KEY (`identificacion`);
 
 --
--- Indexes for table `funcionarios`
+-- Indices de la tabla `funcionarios`
 --
 ALTER TABLE `funcionarios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `grupo_acceso`
+-- Indices de la tabla `grupo_acceso`
 --
 ALTER TABLE `grupo_acceso`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `grupo_dia`
+-- Indices de la tabla `grupo_dia`
 --
 ALTER TABLE `grupo_dia`
   ADD PRIMARY KEY (`iddia`);
 
 --
--- Indexes for table `grupo_horario`
+-- Indices de la tabla `grupo_horario`
 --
 ALTER TABLE `grupo_horario`
   ADD PRIMARY KEY (`idhorario`);
 
 --
--- Indexes for table `grupo_torre`
+-- Indices de la tabla `grupo_torre`
 --
 ALTER TABLE `grupo_torre`
   ADD PRIMARY KEY (`idtorre`);
 
 --
--- Indexes for table `log`
+-- Indices de la tabla `log`
 --
 ALTER TABLE `log`
   ADD PRIMARY KEY (`idLog`),
   ADD KEY `identificacion` (`identificacion`);
 
 --
--- Indexes for table `logregistros`
+-- Indices de la tabla `logregistros`
 --
 ALTER TABLE `logregistros`
   ADD PRIMARY KEY (`idLog`),
   ADD KEY `idVisitante` (`idVisitante`,`idAutoriza`);
 
 --
--- Indexes for table `oficinas`
+-- Indices de la tabla `oficinas`
 --
 ALTER TABLE `oficinas`
   ADD PRIMARY KEY (`Numero`),
   ADD UNIQUE KEY `idOficina` (`idOficina`) USING BTREE;
 
 --
--- Indexes for table `parqueadero`
+-- Indices de la tabla `parqueadero`
 --
 ALTER TABLE `parqueadero`
   ADD PRIMARY KEY (`Identificacion`);
 
 --
--- Indexes for table `personas`
+-- Indices de la tabla `personas`
 --
 ALTER TABLE `personas`
   ADD PRIMARY KEY (`usuario`);
 
 --
--- Indexes for table `pingreso`
+-- Indices de la tabla `pingreso`
 --
 ALTER TABLE `pingreso`
   ADD PRIMARY KEY (`idpingreso`);
 
 --
--- Indexes for table `psalida`
+-- Indices de la tabla `psalida`
 --
 ALTER TABLE `psalida`
   ADD PRIMARY KEY (`idpsalida`);
 
 --
--- Indexes for table `transacciones`
+-- Indices de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
   ADD PRIMARY KEY (`idtransaccion`);
 
 --
--- Indexes for table `usuarios`
+-- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`idusuarios`),
   ADD KEY `identificacion` (`identificacion`);
 
 --
--- Indexes for table `visitantes`
+-- Indices de la tabla `visitantes`
 --
 ALTER TABLE `visitantes`
   ADD PRIMARY KEY (`identificacion`),
   ADD UNIQUE KEY `idvisitante` (`idvisitante`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `funcionarios`
+-- AUTO_INCREMENT de la tabla `controladoras`
+--
+ALTER TABLE `controladoras`
+  MODIFY `idcontroladora` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `funcionarios`
 --
 ALTER TABLE `funcionarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `grupo_acceso`
+-- AUTO_INCREMENT de la tabla `grupo_acceso`
 --
 ALTER TABLE `grupo_acceso`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `grupo_dia`
+-- AUTO_INCREMENT de la tabla `grupo_dia`
 --
 ALTER TABLE `grupo_dia`
-  MODIFY `iddia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `iddia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `grupo_torre`
+-- AUTO_INCREMENT de la tabla `grupo_horario`
+--
+ALTER TABLE `grupo_horario`
+  MODIFY `idhorario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `grupo_torre`
 --
 ALTER TABLE `grupo_torre`
   MODIFY `idtorre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `log`
+-- AUTO_INCREMENT de la tabla `log`
 --
 ALTER TABLE `log`
   MODIFY `idLog` int(40) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `logregistros`
+-- AUTO_INCREMENT de la tabla `logregistros`
 --
 ALTER TABLE `logregistros`
-  MODIFY `idLog` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idLog` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `oficinas`
+-- AUTO_INCREMENT de la tabla `oficinas`
 --
 ALTER TABLE `oficinas`
-  MODIFY `idOficina` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idOficina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `personas`
+-- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
   MODIFY `usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `transacciones`
+-- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
   MODIFY `idtransaccion` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `usuarios`
+-- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idusuarios` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idusuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `visitantes`
+-- AUTO_INCREMENT de la tabla `visitantes`
 --
 ALTER TABLE `visitantes`
-  MODIFY `idvisitante` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idvisitante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
