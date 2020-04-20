@@ -352,13 +352,7 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 <?php 
                 }
                 ?>
-                <li>
-                    <label for="autoriza">Autoriza</label>
-                    <select name="estado" class="form-control">
-                        <?php echo $combobit; ?>
-                    </select>
-                    <br>
-                </li>
+                
                 <li>
                     <label>Para Finalizar </label>
                     <input type="submit" class="btn btn-success" value= "Guardar">

@@ -6,7 +6,7 @@ session_start();
     <head>
         <meta charset="UTF-8">
         <title>Success</title>
-        <?php include '/css/style.css'; ?>
+       
   <link rel= "stylesheet" type="text/css" href= "css/style.css"/>
  
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">

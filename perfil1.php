@@ -254,7 +254,7 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 </li>
                 <li>
                     <label for="email">*Email:</label>
-                    <input type="email" name="correo" placeholder="centralpointcorreo@gmail.com" 
+                    <input type="email" name="correo" placeholder="correo@gmail.com" 
                     id ="nuevoEmailID" value="<?php echo $mail; ?>" required />
                     <span class="form_hint">Formato correcto: "name@something.com"</span>
                 </li>
@@ -340,6 +340,83 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 <?php 
                 }
                 ?>
+                 
+                <li>
+                    <label >*Grupo Acceso</label>
+                    <select name="grupoacceso" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_acceso";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['id'].'">'.$recorrergrupoacceso['nombre'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                </li><li>
+                <label >*Vehículo:</label>
+                    
+                     <select id="carro" name="carro" onchange="mostrarSeleccionado()" class="form-control">
+                     <option value='NO' selected>NO</option>
+                     <option value='SI'>SI</option>
+                     </select>
+                    </li>
+                    <script type="text/javascript">
+                     function mostrarSeleccionado(){
+                      var cod = document.getElementById("carro").value;
+                     if(cod=='NO'){
+                     hide();
+                     }else if(cod == 'SI'){
+                     show();
+                     }}
+                     function hide(){
+                     var earrings = document.getElementById('tipov');
+                     earrings.style.visibility = 'hidden';
+                     }
+
+                     function show(){
+                     var earrings = document.getElementById('tipov');
+                     earrings.style.visibility = 'visible';
+                     }
+                     </script>
+                 </li>
+                 <li>
+                  
+                     <select   style="visibility:hidden;" id="tipov" name="tipov" class="form-control">
+                     <option>CARRO</option>
+                     <option>MOTO</option>
+                     
+                     </select>
+                </li>   
+                <li>
+                    <label >*Grupo Horario</label>
+                    <select name="grupohorario" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_horario";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['idhorario'].'">'.$recorrergrupoacceso['nombre'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                </li>
+                <li>
+                    <label for="autoriza">*Grupo Dias</label>
+                    <select name="grupodias" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_dia";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['iddia'].'">'.$recorrergrupoacceso['numero'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                </li>
                 <li>
                     <label for="autoriza">Autoriza</label>
                     <select name="estado" class="form-control">
