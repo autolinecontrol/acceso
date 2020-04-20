@@ -48,8 +48,10 @@ $validar=0;
         $direccion=$_POST['direccion'];
         $estado=$_POST['estado'];
         $grupo=$_POST['grupo'];
-        $sqlinsertar="INSERT INTO controladoras (nombrecontroladora, direccionipcontroladora, estado, Grupo) 
-        VALUES ('$nombre','$direccion','$estado','$grupo')";
+        $torre=$_POST['torre'];
+        $sqlinsertar="INSERT INTO controladoras (nombrecontroladora, direccionipcontroladora, estado, Grupo,torre) 
+        VALUES ('$nombre','$direccion','$estado','$grupo','$torre')";
+        echo $sqlinsertar;
         $resultadoinsert = mysqli_query($con,$sqlinsertar);
     }
     if(isset($_GET['traer']))
@@ -65,8 +67,9 @@ $validar=0;
         $direccion=$_POST['direccion'];
         $estado=$_POST['estado'];
         $grupo=$_POST['grupo'];
-        $sqlactualizar="REPLACE INTO controladoras (idcontroladora,nombrecontroladora, direccionipcontroladora, estado, Grupo) 
-        VALUES ('$idcontroladora','$nombre','$direccion','$estado','$grupo')";
+        $torre=$_POST['torre'];
+        $sqlactualizar="REPLACE INTO controladoras (idcontroladora,nombrecontroladora, direccionipcontroladora, estado, Grupo,torre)
+        VALUES ('$idcontroladora','$nombre','$direccion','$estado','$grupo','$torre')";
         $resultadoactualizar = mysqli_query($con,$sqlactualizar);
     }
     if(isset($_GET['borrar']))
@@ -80,9 +83,9 @@ $validar=0;
     <header class="header-two-bars">
         <div class="header-first-bar">
             <div class="header-limiter">
-                <h1><a href="perfil.php">Central<span>Point</span></a></h1>                 
+                <h1><a href="perfil.php">Teleport<span>Business<span>Park</span></a></h1>                 
                 <nav>
-                    <a href="perfil.php">Registro</a>
+                    <a href="perfil.php">Inicio</a>
                    
                 </nav>
                 <a href="logout.php" class="logout-button">Logout</a>
@@ -100,6 +103,10 @@ $validar=0;
                     <input type='text' name='direccion'  placeholder='Direccion Controladora'><br><br>
                     <input type='text' name='estado'  placeholder='Estado Controladora'><br><br>
                     <input type='text' name='grupo'  placeholder='Grupo Controladora'><br><br>
+                    <select name='torre'>
+                        <option value='1' selected>Torre A</option> 
+                        <option value='2' >Torre B</option>
+                    </select><br><br>
                     <input type='submit' name='crear' class='btn btn-success' value='Guardar'>";
                 }        
                 if($validar==1)
@@ -110,13 +117,15 @@ $validar=0;
                         $nombre= $fila['nombrecontroladora'];
                         $direccion= $fila['direccionipcontroladora'];
                         $estado= $fila['estado'];
-                        $grupo= $fila['Grupo'];
+                        $grupo= $fila['grupo'];
+                        $torre=$fila ['torre'];
                         echo "
                         <input type='text' name='idcontroladora'  placeholder='Id Controladora' value='$id'><br><br>
                         <input type='text' name='nombre'  placeholder='Nombre Controladora' value='$nombre'><br><br>
                         <input type='text' name='direccion'  placeholder='Direccion Controladora' value='$direccion'><br><br>
                         <input type='text' name='estado'  placeholder='Estado Controladora' value='$estado'><br><br>
                         <input type='text' name='grupo'  placeholder='Grupo Controladora' value='$grupo'><br><br>
+                         <input type='text' name='torre'  placeholder='torre' value='$torre'><br><br>
                         <input type='submit' name='actualizar' class='btn btn-success' value='Guardar'>"; 
                     }  
                 }
@@ -137,6 +146,7 @@ $validar=0;
             <th>Direccion</th>
             <th>Estado</th>
             <th>Grupo</th>
+            <th>Torre</th>
             <th>Actualizar</th>
             <th>Borrar</th>
         </tr>
@@ -149,7 +159,8 @@ $validar=0;
             echo '<td>' . $fila['nombrecontroladora'] . '</td>';
             echo '<td>' . $fila['direccionipcontroladora'] . '</td>';
             echo '<td>' . $fila['estado'] . '</td>';
-            echo '<td>' . $fila['Grupo'] . '</td>';
+            echo '<td>' . $fila['grupo'] . '</td>';
+            echo '<td>' . $fila['torre'] . '</td>';
             echo "<input type='hidden' name='idcontroladora' value='$id'>";
             
             echo "<td><a class='btn btn-success' href='controladoras.php?traer=1&idcontroladora=$id'>Actualizar</a></td>";

@@ -168,7 +168,11 @@
                                      <a href="buscarlog.php">Buscar Movimientos Controladoras</a>
 			                                <a href="mostrarlog.php">Mostrar Movimientos Controladoras</a>
                                    </li>
-
+                                   <li class="dropdown">
+                                   <a href="javascript:void(0)" class="dropbtn" >Controladoras</a>
+                                     <div class="dropdown-content" >
+                                    <a href="controladoras.php">Mostrar Controladoras</a>
+                                    </li>  
                                    </ul>
 
                                     ';
