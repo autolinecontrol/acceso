@@ -130,7 +130,7 @@ $tipovehiculo)
     ,estado,vehiculo,oficina,grupo,grupohorario,grupodias,torre,tipovehiculo) 
     VALUES (NULL, '$identificacion', '$ingreso','$salida','$id'
     ,'$stat','$carro','$oficina','$grupo','$grupodias','$grupohorario','$torre','$tipovehiculo')";
-    echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
+    //echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
     $resultado1 = mysqli_query($con,$sqlinsertarusuarios);     
 }
 
