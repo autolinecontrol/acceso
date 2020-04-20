@@ -137,7 +137,7 @@ function comprobarf($ingreso,$salida){
         ,estado,vehiculo,oficina,grupohorario,grupodias,torre,tipovehiculo) 
         VALUES (NULL, '$identificacion', '$ingreso','$salida','$id'
         ,'$stat','$carro','$oficina','$grupodias','$grupohorario','$torre','$tipovehiculo')";
-        echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
+        //echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
         $resultado1 = mysqli_query($con,$sqlinsertarusuarios);     
     }
     $validaf = comprobarf($ingreso,$salida);
@@ -219,7 +219,7 @@ if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name']
   $nombre  = $data[1];
   $nombre1 = $data[2];
   $correo  = $data[3];
-  $vehiculo= $data[4];
+  $carro= $data[4];
   $tipovehiculo= $data[5];
   $identificacion=$cedula;
   //$ingreso = $data[4];
@@ -269,7 +269,7 @@ if($valido > 1 && $cedula != '')
         ,Fechafin,Tipo,Accion,Vehiculo,Tipovehiculo,Correo,grupohorario,grupoacceso,grupodias) VALUES (NULL,  '$nombreadmin', '$identificacion'
         ,'$documentoadmin','$oficina','$ingreso','$salida','$tipo','$accion','$carro','$tipovehiculo','$correo'
         ,'$grupohorario','$grupoacceso','$grupodias')";
-        echo "<b>".$sqllog."</b>"."<br>";//exit;
+        //echo "<b>".$sqllog."</b>"."<br>";//exit;
         $resultadolog = mysqli_query($con,$sqllog);
 
         //____________________________________________INSERTAR EN VISITANTES______________________________________
@@ -279,7 +279,7 @@ if($valido > 1 && $cedula != '')
         VALUES (NULL,  '$nombres','$identificacion','$oficina','$correo','$ingreso','$salida','$stat',
         '$cont','$tipo','$carro','$tipovehiculo','$grupoacceso','$grupohorario','$grupodias')";
         $resultadovisi = mysqli_query($con,$sqlvisi);
-        echo "<b>".$sqlvisi."</b>"."<br>"; 
+        //echo "<b>".$sqlvisi."</b>"."<br>"; 
      
 //____________________________________________TRAER DATOS DE GRUPO ACCESO________________________________________
 
