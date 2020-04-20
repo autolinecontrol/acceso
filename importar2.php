@@ -62,6 +62,43 @@ session_start();
                <input type="text" name="admin" placeholder="Nombres Apellidos" id ="nuevoUsuarioID" value="<?php echo $nombre; ?>"  readonly />
           </li>
           <br>
+          
+          <label >Grupo Acceso</label>
+                    <select name="grupoacceso" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_acceso";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['id'].'">'.$recorrergrupoacceso['nombre'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+          <label >*Grupo Horario</label>
+                    <select name="grupohorario" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_horario";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['idhorario'].'">'.$recorrergrupoacceso['nombre'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                    <label for="autoriza">*Grupo Dias</label>
+                    <select name="grupodias" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_dia";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['iddia'].'">'.$recorrergrupoacceso['numero'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
           <label for="Fecha">Oficina:</label>
           <?php 
                $sqloficina="Select * from oficinas ORDER BY Numero";
@@ -90,7 +127,9 @@ session_start();
                <br><br> 
                <label for="Fecha">Expira </label><br>
                <input type="datetime-local" name="salida" value="<?php echo date('Y-m-d').'T'.date('23:00'); ?>"  min="<?php echo $fechamin.'T'.date('06:00'); ?>" placeholder="yyyy-MM-hh HH:mm:ss" id="SalidaID" required  />
-                    
+               <br>
+              
+                
                
     <br><br>
     <input name="archivo" type="file" id="archivo">

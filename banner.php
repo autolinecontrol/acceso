@@ -131,11 +131,11 @@
                                     </div>
                                   </li>
                                   <li class="dropdown">
-                                    <a href="javascript:void(0)" class="dropbtn" >Estudiantes</a>
+                                    <a href="javascript:void(0)" class="dropbtn" >Contratistas</a>
                                     <div class="dropdown-content">
-                                      <a href="perfil2.php" >Registrar Estudiantes</a>
-                                      <a href="mostrarc.php" >Mostrar Estudiantes</a>
-                                      <a href="importar2.php" >Masivo Estudiantes</a>
+                                      <a href="perfil2.php" >Registrar Contratistas</a>
+                                      <a href="mostrarc.php" >Mostrar Contratistas</a>
+                                      <a href="importar2.php" >Masivo Contratistas</a>
                                     </div>
                                   </li>
                                   <li class="dropdown">
