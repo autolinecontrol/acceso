@@ -327,6 +327,7 @@ else
                     echo "<td colspan='$mostrador'>&nbsp;</td>";
                     }
                 echo "<td><a class='btn btn-success' href='grupo_dia.php?traer=1&id=$id'>Editar</a></td>";
+                if($id!=1)
                 echo "<td><a class='btn btn-danger' href='grupo_dia.php?borrar=1&id=$id'>Borrar</a></td>";
 
             }

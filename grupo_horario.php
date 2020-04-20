@@ -65,7 +65,7 @@ else
     if(isset($_POST['crear']))
     {
         $contador=0;
-        var_dump($_POST);
+        //var_dump($_POST);
         $hora=$_POST['hora'];
         $horaf=$_POST['horaf'];
         $nombre=$_POST['nombre'];
@@ -88,56 +88,32 @@ else
     if(isset($_GET['traer']))
     {
         $idtraer=$_GET['id'];
-        $sql="SELECT * FROM grupo_horario WHERE id =$idtraer";
+        $sql="SELECT * FROM grupo_horario WHERE idhorario =$idtraer";
         $validar=1;
     }
     if(isset($_POST['actualizar']))
     {
         $idactualizar=$_POST['idactualizar'];
-        $torre=$_POST['torre'];
-        $contador=0;
         $nombre=$_POST['nombre'];
-        $sqlinsertar="UPDATE grupo_acceso 
-        SET nombre='$nombre'";
-        if(isset($_POST['cbox5']))$sqlinsertar.=",p5='1'";
-        else $sqlinsertar.=",p5='0'";
-        if(isset($_POST['cbox6']))$sqlinsertar.=",p6='1'";
-        else $sqlinsertar.=",p6='0'";
-        if(isset($_POST['cbox7']))$sqlinsertar.=",p7='1'";
-        else $sqlinsertar.=",p7='0'";
-        if(isset($_POST['cbox8']))$sqlinsertar.=",p8='1'";
-        else $sqlinsertar.=",p8='0'";
-        if(isset($_POST['cbox9']))$sqlinsertar.=",p9='1'";
-        else $sqlinsertar.=",p9='0'";
-        if(isset($_POST['cbox10']))$sqlinsertar.=",p10='1'";
-        else $sqlinsertar.=",p10='0'";
-        if(isset($_POST['cbox11']))$sqlinsertar.=",p11='1'";
-        else $sqlinsertar.=",p11='0'";
-        if(isset($_POST['cbox12']))$sqlinsertar.=",p12='1'";
-        else $sqlinsertar.=",p12='0'";
-        if(isset($_POST['cbox14']))$sqlinsertar.=",p14='1'";
-        else $sqlinsertar.=",p14='0'";
-        if(isset($_POST['cbox15']))$sqlinsertar.=",p15='1'";
-        else $sqlinsertar.=",p15='0'";
-        if(isset($_POST['cboxsotanos']))$sqlinsertar.=",sotanos='1'";
-        else $sqlinsertar.=",sotanos='0'";
-        if(isset($_POST['cboxlooby']))$sqlinsertar.=",looby='1'";
-        else $sqlinsertar.=",looby='0'";
-        if(isset($_POST['cboxpv']))$sqlinsertar.=",pv='1'";
-        else $sqlinsertar.=",pv='0'";
-        if(isset($_POST['cboxpf']))$sqlinsertar.=",pf='1'";
-        else $sqlinsertar.=",pf='0'";
-        $sqlinsertar.=",torre='$torre' WHERE id='$idactualizar'";
+        $hora=$_POST['hora'];
+        $horaf=$_POST['horaf'];
+        $sqlactualizar="UPDATE grupo_horario 
+        SET nombre='$nombre',
+        horainicio='$hora',
+        horafin='$horaf'
+        ";
+
+        $sqlinsertar.=" WHERE idhorario='$idactualizar'";
        //echo $sqlinsertar;
         $resultadoinsert = mysqli_query($con,$sqlinsertar);
     }
     if(isset($_GET['borrar']))
     {
         $id=$_GET['id'];
-        $sqlborrar="DELETE FROM grupo_horario WHERE id =$id";
+        $sqlborrar="DELETE FROM grupo_horario WHERE idhorario =$id";
         $resultadoborrar = mysqli_query($con,$sqlborrar);
     }  
-    //echo $sql;
+    echo $sql;
     $resultado = mysqli_query($con,$sql);
     include'banner.php';
     ?>           
@@ -152,7 +128,7 @@ else
                 {
                     echo "
                     <br>
-                    <input type='nombre' name='nombre' required><br><br>";
+                    <input type='nombre' name='nombre' placeholder='Digite el nombre del grupo de horario'required><br><br>";
                     /*
                     <select name='torre'>
                         <option value='1' selected>Torre A</option> 
@@ -179,7 +155,7 @@ else
                 }        
                 if($validar==1)
                 {
-                    while($fila = mysqli_fetch_ºassoc($resultado))
+                    while($fila = mysqli_fetch_assoc($resultado))
                     {
                         $id=  $fila['idhorario'];
                         $nombre= $fila['nombre'];
@@ -199,11 +175,9 @@ else
                             <th>Hora Fin</th>
                         </tr>
                         <tr>";
-                        echo"<td><input type='checkbox' name='time' value='$hora'";
-                        if($p5==1)echo "$hora";
+                        echo"<td><input type='time' name='hora' value='$hora'";
                         echo "></td>";
-                        echo"<td><input type='checkbox' name='time' value='$horaf'";
-                        if($p6==1)echo "$horaf";
+                        echo"<td><input type='time' name='horaf' value='$horaf'";
                         echo "></td>
                         </tr>
                         </table>
@@ -223,9 +197,8 @@ else
         <tr>
             <th>Id</th>
             <th>Nombre</th> 
-            <th colspan="4" style="text-align: center">Horarios</th>
-            <th >Fechainicio</th>
-            <th >Fechafin</th>
+            <th colspan="2" style="text-align: center">Horarios</th>
+            
             <th>Editar</th>
             <th>Eliminar</th>          
         </tr>
@@ -236,26 +209,12 @@ else
                 $mostrador=0;
                 echo '<tr>';
                 $id= $fila['idhorario'];
+                echo '<td>' . $id . '</td>';
                 echo '<td>' . $fila['nombre'] . '</td>';
-                if($fila['horainicio']==1)
-                {
-                    echo "<td>horainicio</td>";
-                }
-                else{
-                    $mostrador++;
-                }
-                if($fila['horafin']==1)
-                {
-                    echo "<td>horafin</td>";
-                }else{
-                    $mostrador++;
-                }
-                
-                if($mostrador!=0){
-                    echo "<td colspan='$mostrador'>&nbsp;</td>";
-                    }
-
+                echo '<td>' . $fila['horainicio'] . '</td>';
+                echo '<td>' . $fila['horafin'] . '</td>';
                 echo "<td><a class='btn btn-success' href='grupo_horario.php?traer=1&id=$id'>Editar</a></td>";
+                if($id!=1)
                 echo "<td><a class='btn btn-danger' href='grupo_horario.php?borrar=1&id=$id'>Borrar</a></td>";
 
             }

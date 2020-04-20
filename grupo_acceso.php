@@ -485,6 +485,7 @@ else
                 $torremostrar='A y B';
                 echo "<td>$torremostrar</td>";
                 echo "<td><a class='btn btn-success' href='grupo_acceso.php?traer=1&id=$id'>Editar</a></td>";
+                if($id!=1)
                 echo "<td><a class='btn btn-danger' href='grupo_acceso.php?borrar=1&id=$id'>Borrar</a></td>";
 
             }
