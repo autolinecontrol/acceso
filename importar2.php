@@ -34,7 +34,7 @@ session_start();
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
      <!-- Latest compiled JavaScript -->
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-     <title>Subir Masivos</title>
+     <title>Subir Masivos Funcionarios</title>
      <link rel="stylesheet" href="assets/demo.css">
      <link rel="stylesheet" href="assets/header-second-bar.css">
      <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
@@ -75,7 +75,7 @@ session_start();
                     ?>
                     </select>
                     <br>
-          <label >*Grupo Horario</label>
+          <label >Grupo Horario</label>
                     <select name="grupohorario" class="form-control">
                     <?php
                     $sqlgrupoacceso="SELECT * FROM grupo_horario";
@@ -87,7 +87,7 @@ session_start();
                     ?>
                     </select>
                     <br>
-                    <label for="autoriza">*Grupo Dias</label>
+          <label for="autoriza">Grupo Dias</label>
                     <select name="grupodias" class="form-control">
                     <?php
                     $sqlgrupoacceso="SELECT * FROM grupo_dia";

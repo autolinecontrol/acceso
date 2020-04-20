@@ -12,6 +12,7 @@ $email = $mysqli->escape_string($_POST['email']);
             $_SESSION['email'] = $user['email'];
             $_SESSION['nombre'] = $user['nombre'];
             $_SESSION['oficina'] = $user['oficina'];
+            $_SESSION['Identificacion'] = $user['Identificacion'];
             $_SESSION['logged_in']=true;
             header("Location:perfil.php");
             exit();

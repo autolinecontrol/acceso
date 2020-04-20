@@ -100,23 +100,24 @@ if(!$validan>0)
     exit();   
 }
 
-//_______________________________________________INSERTAR EN LOG REGISTROS_________________________________
+        //_______________________________________________INSERTAR EN LOG REGISTROS_________________________________
 
-$sqllog="INSERT INTO logregistros (idLog,Administrador,idVisitante,idAutoriza,Oficina,Fechainicio
-,Fechafin,Tipo,Accion,Vehiculo,Tipovehiculo,Correo,grupohorario,grupoacceso,grupodias) VALUES (NULL,  '$nombreadmin', '$identificacion'
-,'$documentoadmin','$oficina','$ingreso','$salida','$tipo','$accion','$carro','$tipovehiculo','$correo'
-,'$grupohorario','$grupoacceso','$grupodias')";
-//echo "<b>".$sqllog."</b>"."<br>";//exit;
-$resultadolog = mysqli_query($con,$sqllog);
+        $sqllog="INSERT INTO logregistros (idLog,Administrador,idVisitante,idAutoriza,Oficina,Fechainicio
+        ,Fechafin,Tipo,Accion,Vehiculo,Tipovehiculo,Correo,grupohorario,grupoacceso,grupodias) VALUES (NULL,  '$nombreadmin', '$identificacion'
+        ,'$documentoadmin','$oficina','$ingreso','$salida','$tipo','$accion','$carro','$tipovehiculo','$correo'
+        ,'$grupohorario','$grupoacceso','$grupodias')";
+        echo "<b>".$sqllog."</b>"."<br>";//exit;
+        $resultadolog = mysqli_query($con,$sqllog);
 
-//____________________________________________INSERTAR EN VISITANTES______________________________________
+        //____________________________________________INSERTAR EN VISITANTES______________________________________
 
-$sqlvisi="REPLACE INTO visitantes (idvisitante,nombre,identificacion,Oficina,correo,Ingreso
-,Salida,estado,ncontroladora,tipo,vehiculo,Tipovehiculo,grupoacceso,grupohorario,grupodias) 
-VALUES (NULL,  '$nombres','$identificacion','$oficina','$correo','$ingreso','$salida','$stat',
-'$cont','$tipo','$carro','$tipovehiculo','$grupoacceso','$grupohorario','$grupodias')";
-$resultadovisi = mysqli_query($con,$sqlvisi);
-//echo "<b>".$sqlvisi."</b>"."<br>"; 
+        $sqlvisi="REPLACE INTO visitantes (idvisitante,nombre,identificacion,Oficina,correo,Ingreso
+        ,Salida,estado,ncontroladora,tipo,vehiculo,Tipovehiculo,grupoacceso,grupohorario,grupodias) 
+        VALUES (NULL,  '$nombres','$identificacion','$oficina','$correo','$ingreso','$salida','$stat',
+        '$cont','$tipo','$carro','$tipovehiculo','$grupoacceso','$grupohorario','$grupodias')";
+        $resultadovisi = mysqli_query($con,$sqlvisi);
+        echo "<b>".$sqlvisi."</b>"."<br>"; 
+     
 
 //____________________________________________FUNCION INSERTAR USUARIOS______________________________________
 
