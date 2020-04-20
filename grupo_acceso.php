@@ -483,6 +483,10 @@ else
                     }
                 if($torremostrar=='3')
                 $torremostrar='A y B';
+                if($torremostrar=='1')
+                $torremostrar='A';
+                if($torremostrar=='2')
+                $torremostrar='B';
                 echo "<td>$torremostrar</td>";
                 echo "<td><a class='btn btn-success' href='grupo_acceso.php?traer=1&id=$id'>Editar</a></td>";
                 if($id!=1)
