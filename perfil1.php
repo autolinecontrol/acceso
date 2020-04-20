@@ -139,9 +139,12 @@ if($validac < 1)
 }
 $resultado = mysqli_query($con, "select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
 . " from visitantes  where identificacion = '$identificacion'");
-$resultado1 = mysqli_query($con, "select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
-. " from visitantes where identificacion = '$identificacion'");
+$sqltraer="select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
+. " from visitantes where identificacion = '$identificacion'";
+
+$resultado1 = mysqli_query($con,$sqltraer);
 $validar=mysqli_num_rows($resultado1);
+
 
 if($validar!=0)
 {

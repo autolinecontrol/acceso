@@ -172,6 +172,7 @@ if($validar!=0)
         visitantes.tipo='VISITANTE'
         ORDER BY logregistros.Fechahora DESC LIMIT 1
         ";
+        echo $sqlmostrar;
 		$mostrar = mysqli_query($con,$sqlmostrar);
         echo "<div class = 'container'>
         <table class = 'table table-striped table-bordered'>
