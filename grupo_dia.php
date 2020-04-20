@@ -103,7 +103,7 @@ else
             $sqlinsertar.=",1";
         }
         $sqlinsertar.=")";
-        echo $sqlinsertar;  
+        //echo $sqlinsertar;  
         $resultadoinsert = mysqli_query($con,$sqlinsertar);
     }
     if(isset($_GET['traer']))

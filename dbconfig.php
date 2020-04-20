@@ -1,8 +1,8 @@
 <?php
 $DBhost = "localhost";
- $DBuser = "acceso";
- $DBpass = "Ugc2020$%";
- $DBname = "mgeiqybt_cap";
+ $DBuser = "autoline2020_acceso";
+ $DBpass = "Acceso2020*";
+ $DBname = "autoline2020_teleport";
  
  try{
   
