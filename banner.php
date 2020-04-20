@@ -144,7 +144,7 @@
                                       <a href="perfil1.php" >Registrar Funcionarios</a>
                                       <a href="mostrarf.php" >Mostrar Funcionarios</a>
                                       <a href="mostrarFuncionarios.php" class="dropbtn" >Buscar Funcionarios<br>x Oficina</a>
-                                      <a href="importar2.php" >Masivo Funcionarios</a>
+                                      
 
                                     </div>
                                   </li>
@@ -156,6 +156,7 @@
                                   <a href="grupo_acceso.php">Crear Grupos de Acceso</a>
                                   <a href="grupo_dia.php">Crear Grupos de Dias</a>
                                   <a href="grupo_horario.php">Crear Grupos de Horario</a>
+                                  <a href="importar2.php" >Masivo Funcionarios</a>
                                     ';// <a href="ofice.php" >Oficinas</a>
                                     echo'
                                    </li>

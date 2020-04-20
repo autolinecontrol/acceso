@@ -122,14 +122,14 @@ if(!$validan>0)
 //____________________________________________FUNCION INSERTAR USUARIOS______________________________________
 
 function insertaru ($con,$identificacion, $ingreso,$salida,$id
-,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
 $tipovehiculo)
 {
     $sqlinsertarusuarios="INSERT INTO usuarios 
     (idusuarios,identificacion,fechainicio,fechafin,ncontroladora
-    ,estado,vehiculo,oficina,grupohorario,grupodias,torre,tipovehiculo) 
+    ,estado,vehiculo,oficina,grupo,grupohorario,grupodias,torre,tipovehiculo) 
     VALUES (NULL, '$identificacion', '$ingreso','$salida','$id'
-    ,'$stat','$carro','$oficina','$grupodias','$grupohorario','$torre','$tipovehiculo')";
+    ,'$stat','$carro','$oficina','$grupo','$grupodias','$grupohorario','$torre','$tipovehiculo')";
     echo "<b>".$sqlinsertarusuarios."</b>"."<br>"; 
     $resultado1 = mysqli_query($con,$sqlinsertarusuarios);     
 }
@@ -183,13 +183,14 @@ $contador=0;
 if($p5==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =5";
+    $grupo=5;
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -197,7 +198,7 @@ if($p5==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -209,12 +210,13 @@ if($p6==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo= 6";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=6;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -222,7 +224,7 @@ if($p6==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -234,12 +236,13 @@ if($p7==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =7";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=7;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -247,7 +250,7 @@ if($p7==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -259,12 +262,13 @@ if($p8==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =8";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=8;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -272,7 +276,7 @@ if($p8==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -284,12 +288,13 @@ if($p9==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =9";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=9;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -297,7 +302,7 @@ if($p9==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -309,12 +314,13 @@ if($p10==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =10";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=10;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -322,7 +328,7 @@ if($p10==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -334,12 +340,13 @@ if($p11==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =11";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=11;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -347,7 +354,7 @@ if($p11==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -359,12 +366,13 @@ if($p12==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =12";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=12;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -372,7 +380,7 @@ if($p12==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -384,12 +392,13 @@ if($p14==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =14";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=14;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -397,7 +406,7 @@ if($p14==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -409,12 +418,13 @@ if($p15==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =15";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=15;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -422,7 +432,7 @@ if($p15==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -433,12 +443,13 @@ if($sotanos==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =1";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=1;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -446,7 +457,7 @@ if($sotanos==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -457,12 +468,13 @@ if($looby==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =4";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=4;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -470,7 +482,7 @@ if($looby==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -481,12 +493,13 @@ if($pv==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =2";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=2;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -494,7 +507,7 @@ if($pv==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -505,12 +518,13 @@ if($pf==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =3";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
+    $grupo=3;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
     {
         if($torre==3)
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$fila['Torre'],
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$fila['Torre'],
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
@@ -518,7 +532,7 @@ if($pf==1)
         if($torre==$fila['Torre'])
         {
             $validainsert=insertaru($con,$identificacion, $ingreso,$salida,$fila['idcontroladora']
-            ,$stat,$carro,$oficina,$grupohorario,$grupodias,$torre,
+            ,$stat,$carro,$oficina,$grupo,$grupohorario,$grupodias,$torre,
             $tipovehiculo);
             $contador++;           
             echo $validainsert;
