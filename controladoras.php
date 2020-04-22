@@ -33,14 +33,7 @@ $validar=0;
 <body>
     <div class="form">
     <?php
-    // if(!$activo)
-    // {
-    //     echo "<div class = 'alert alert-info'>
-    //     Tu cuenta fue creada! Te acabamos de enviar un correo, 
-    //     por favor confirma tu cuenta haciendo click en el link enviado, gracias.
-    //     </div>";
-    // }
-
+    
     $sql="select * from controladoras order by direccionipcontroladora";
     if(isset($_POST['crear']))
     {
@@ -118,7 +111,7 @@ $validar=0;
                         $direccion= $fila['direccionipcontroladora'];
                         $estado= $fila['estado'];
                         $grupo= $fila['grupo'];
-                        $torre=$fila ['torre'];
+                        $torre = $fila['torre'];
                         echo "
                         <input type='text' name='idcontroladora'  placeholder='Id Controladora' value='$id'><br><br>
                         <input type='text' name='nombre'  placeholder='Nombre Controladora' value='$nombre'><br><br>
@@ -160,7 +153,10 @@ $validar=0;
             echo '<td>' . $fila['direccionipcontroladora'] . '</td>';
             echo '<td>' . $fila['estado'] . '</td>';
             echo '<td>' . $fila['grupo'] . '</td>';
-            echo '<td>' . $fila['torre'] . '</td>';
+            if($fila['torre']==1)$ntorre="A";
+            if($fila['torre']==2)$ntorre="B";
+            if($fila['torre']==3)$ntorre="A y B";
+            echo '<td>' . $ntorre .'</td>' ;
             echo "<input type='hidden' name='idcontroladora' value='$id'>";
             
             echo "<td><a class='btn btn-success' href='controladoras.php?traer=1&idcontroladora=$id'>Actualizar</a></td>";

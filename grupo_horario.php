@@ -79,12 +79,18 @@ else
             $sqlinsertar.=',horafin';
             $contador++;
         }
+
+        //validacion hora inicio y hora fin
+
+        
+
+        }
         $sqlinsertar.=") VALUES(NULL,'$nombre','$hora','$horaf'";
         
         $sqlinsertar.=")";
         echo $sqlinsertar;  
         $resultadoinsert = mysqli_query($con,$sqlinsertar);
-    }
+ 
     if(isset($_GET['traer']))
     {
         $idtraer=$_GET['id'];
@@ -140,12 +146,10 @@ else
                     <br>
                     <table class = 'table table-striped table-bordered'>
                     <tr>
-                        <th>Hora Inicio</th>
-                        <th>Hora Fin</th>
+                    <th>Hora Inicio </th> <td><input type='time' name='hora' max='23:59' min='00:01' ></td>
                     </tr>
-                    <tr>
-                        <td><input type='time' name='hora' max='23:59' min='00:01' ></td>
-                        <td><input type='time' name='horaf' max='23:59' min='00:01'  ></td>
+                    <tr>    
+                    <th>Hora Fin</th> <td><input type='time' name='horaf' max='23:59' min='00:01'  ></td>
                     </tr>
                     </table>
                     <br>

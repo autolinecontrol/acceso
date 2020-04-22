@@ -1,5 +1,5 @@
 <?php
-$tipoglobal="ESTUDIANTE";
+$tipoglobal="Contratista";
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require 'db.php';
 require 'conexion.php';
