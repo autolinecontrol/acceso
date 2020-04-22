@@ -139,9 +139,12 @@ if($validac < 1)
 }
 $resultado = mysqli_query($con, "select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
 . " from visitantes  where identificacion = '$identificacion'");
-$resultado1 = mysqli_query($con, "select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
-. " from visitantes where identificacion = '$identificacion'");
+$sqltraer="select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
+. " from visitantes where identificacion = '$identificacion'";
+
+$resultado1 = mysqli_query($con,$sqltraer);
 $validar=mysqli_num_rows($resultado1);
+
 
 if($validar!=0)
 {
@@ -169,10 +172,10 @@ if($validar!=0)
         logregistros.idVisitante=visitantes.identificacion and
         logregistros.idVisitante='$identificacion' and
         logregistros.Fechafin>='$nuevoIngreso' and
-        visitantes.tipo='VISITANTE'
+        visitantes.tipo='$tipoglobal'
         ORDER BY logregistros.Fechahora DESC LIMIT 1
         ";
-        echo $sqlmostrar;
+        //echo $sqlmostrar;
 		$mostrar = mysqli_query($con,$sqlmostrar);
         echo "<div class = 'container'>
         <table class = 'table table-striped table-bordered'>
@@ -254,7 +257,7 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 </li>
                 <li>
                     <label for="email">*Email:</label>
-                    <input type="email" name="correo" placeholder="centralpointcorreo@gmail.com" 
+                    <input type="email" name="correo" placeholder="correo@gmail.com" 
                     id ="nuevoEmailID" value="<?php echo $mail; ?>" required />
                     <span class="form_hint">Formato correcto: "name@something.com"</span>
                 </li>
@@ -294,37 +297,22 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                     }
                     ?> 
                 </li>
-                <?php 
-                if($oficina>1 and $tipo!="FUNCIONARIO")
-                {
-                ?>
+                
                     <li>
-                        <?php 
+                        <?php echo $ingreso;
                         $fecha_actual = date("Y-m-d");
-                        //sumo 1 día
-                        $fechamax= date("Y-m-d",strtotime($fecha_actual."+ 1 days"));
                         $fechamin =$fecha_actual;
-                        echo $ingreso; 
-                        ?> 
+                        ?>
                         <br><label for="Fecha">*Ingreso:</label>
-                        <input type="datetime-local" name="ingreso" value="<?php echo date('Y-m-d').'T'.date('06:00'); ?>" min="<?php echo $fechamin.'T'.date('06:00'); ?>"   placeholder="yyyy-MM-hh HH:mm:ss" id="IngresoID" required  />
+                        <input type="datetime-local" name="ingreso" min="<?php echo $fechamin.'T'.date('06:00'); ?>" value="<?php echo date('Y-m-d').'T'.date('06:00'); ?>"  placeholder="yyyy-MM-hh HH:mm:ss" id="IngresoID" required  />
                         <span class="form_hint">Formato correcto: "yyyy-MM-hh HH:mm"</span>
                     </li>
                     <li>
-                        <?php $fecha_actual = date("Y-m-d");
-                        //sumo 1 día
-                        $fechamax= date("Y-m-d",strtotime($fecha_actual."+ 1 days"));
-                        $fechamin =$fecha_actual;
-                        echo $salida;
-                        ?> 
+                        <?php echo $salida;?>
                         <br><label for="Fecha">*Salida:</label>
-                        <input type="datetime-local" name="salida" value="<?php echo date('Y-m-d').'T'.date('23:00'); ?>" min="<?php echo $fechamin.'T'.date('23:00'); ?>"  placeholder="yyyy-MM-hh HH:mm:ss" id="SalidaID" required  />
+                        <input type="datetime-local" name="salida"  min="<?php echo $fechamin.'T'.date('23:00'); ?>" value="<?php echo date('Y-m-d').'T'.date('23:00')?>" placeholder="yyyy-MM-hh HH:mm:ss" id ="SalidaID" required  />
                         <span class="form_hint">Formato correcto: "yyyy-MM-hh HH:mm"</span>
                     </li>
-                <?php 
-                }                
-                ?>
-                   
                 <?php 
                 
                 ?>
@@ -333,9 +321,9 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 {
                 ?>
                     <li>
-                    <label> <?php echo $tipo; ?></label>
+                    <label> <?php echo $tipoglobal; ?></label>
                     <select name="tipo" class="form-control" id="sel1">
-                    <option>VISITANTE</option>
+                    <option><?php echo $tipoglobal; ?></option>
                     </select>
                     </li>
                 <?php 
@@ -347,13 +335,28 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 ?>
                     <li>
                         <label for="sel1">*Perfil:</label>
-                        <input type="text" placeholder="VISITANTE" name="tipo" id ="sel1" value="<?php 
-                        if($tipo =="")echo "VISITANTE";else echo $tipo;?>" readonly />
+                        <input type="text" placeholder="<?php echo $tipoglobal; ?>" name="tipo" id ="sel1" value="<?php 
+                        if($tipo =="")echo $tipoglobal;else echo $tipo;?>" readonly />
                     </li>
                 <?php 
                 }
                 ?>
-                
+                  <li>
+                    <label >*Grupo Acceso</label>
+                    <select name="grupoacceso" class="form-control">
+                   <option value="3" >Torre A</option>
+                   <option value="4" >Torre B</option>
+                   <option value="5" >Torre A y B</option>
+                    </select>
+                    <br>
+                </li>
+                <li>
+                    <label for="autoriza">Autoriza</label>
+                    <select name="estado" class="form-control">
+                        <?php echo $combobit; ?>
+                    </select>
+                    <br>
+                </li>
                 <li>
                     <label>Para Finalizar </label>
                     <input type="submit" class="btn btn-success" value= "Guardar">
@@ -367,10 +370,10 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
             }
             ?></ul>
             <?php 
-            if($tipo=="FUNCIONARIO")
+            if($tipo=="VISITANTE")
             {
                 echo "<script type='text/javascript'>
-                alert('Este usuario es Funcionario , registrelo en la pestaña Registrar Funcionarios');
+                alert('Este usuario es Visitante , registrelo en la pestaña Registrar Visitantes');
                 </script>";
                 //exit;
             }

@@ -49,8 +49,13 @@ if($salida<$ingreso)
 
 //_______________________________________ASIGNACION DE FECHAS MAXIMAS_____________________________________
 
-if ($tipo == 'VISITANTE')
+if ($tipo == 'VISITANTE'){
 $fechamax= date("Y-m-d",strtotime($ingreso."+ 16 days"));
+$grupohorario="1";
+$grupodias="1";
+$vehiculo="NO";
+$tipovehiculo="NO";
+}
 if($tipo == 'CONTRATISTA')
 $fechamax= date("Y-m-d",strtotime($ingreso."+ 91 days"));
 if ($tipo == 'FUNCIONARIO')

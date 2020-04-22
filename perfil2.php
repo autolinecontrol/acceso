@@ -1,5 +1,5 @@
 <?php
-$tipoglobal="ESTUDIANTE";
+$tipoglobal="CONTRATISTA";
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require 'db.php';
 require 'conexion.php';
@@ -27,7 +27,9 @@ else
     }
     else
     {
-        $resultoficina=mysqli_query($con,"SELECT oficinas.Nombre FROM funcionarios INNER JOIN oficinas ON oficinas.Numero = funcionarios.oficina WHERE email='$email'");
+        $sqlmostrardatos="SELECT oficinas.Nombre FROM funcionarios INNER JOIN oficinas ON oficinas.Numero = funcionarios.oficina WHERE email='$email'";
+        $resultoficina=mysqli_query($con,$sqlmostrardatos);
+        //echo $sqlmostrardatos;
         while($recorrer = mysqli_fetch_assoc( $resultoficina))
         {
             $nombreoficina=$recorrer['Nombre'];
@@ -68,7 +70,7 @@ else
     }
     if($activo>1)
     {
-        require_once 'banner.php';
+        include 'banner.php';
     }      
     ?>
     <header class="header-two-bars">
@@ -137,9 +139,12 @@ if($validac < 1)
 }
 $resultado = mysqli_query($con, "select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
 . " from visitantes  where identificacion = '$identificacion'");
-$resultado1 = mysqli_query($con, "select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
-. " from visitantes where identificacion = '$identificacion'");
+$sqltraer="select identificacion,nombre,correo,Ingreso,Salida,tipo,vehiculo"
+. " from visitantes where identificacion = '$identificacion'";
+
+$resultado1 = mysqli_query($con,$sqltraer);
 $validar=mysqli_num_rows($resultado1);
+
 
 if($validar!=0)
 {
@@ -170,6 +175,7 @@ if($validar!=0)
         visitantes.tipo='$tipoglobal'
         ORDER BY logregistros.Fechahora DESC LIMIT 1
         ";
+        //echo $sqlmostrar;
 		$mostrar = mysqli_query($con,$sqlmostrar);
         echo "<div class = 'container'>
         <table class = 'table table-striped table-bordered'>
@@ -251,7 +257,7 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 </li>
                 <li>
                     <label for="email">*Email:</label>
-                    <input type="email" name="correo" placeholder="centralpointcorreo@gmail.com" 
+                    <input type="email" name="correo" placeholder="correo@gmail.com" 
                     id ="nuevoEmailID" value="<?php echo $mail; ?>" required />
                     <span class="form_hint">Formato correcto: "name@something.com"</span>
                 </li>
@@ -291,51 +297,7 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                     }
                     ?> 
                 </li>
-                <?php 
-                if($oficina>1 and $tipo!="FUNCIONARIO")
-                {
-                ?>
-                    <li>
-                        <?php 
-                        $fecha_actual = date("Y-m-d");
-                        //sumo 1 día
-                        $fechamax= date("Y-m-d",strtotime($fecha_actual."+ 1 days"));
-                        $fechamin =$fecha_actual;
-                        echo $ingreso; 
-                        ?> 
-                        <br><label for="Fecha">*Ingreso:</label>
-                        <input type="datetime-local" name="ingreso" value="<?php echo date('Y-m-d').'T'.date('06:00'); ?>" min="<?php echo $fechamin.'T'.date('06:00'); ?>"   placeholder="yyyy-MM-hh HH:mm:ss" id="IngresoID" required  />
-                        <span class="form_hint">Formato correcto: "yyyy-MM-hh HH:mm"</span>
-                    </li>
-                    <li>
-                        <?php $fecha_actual = date("Y-m-d");
-                        //sumo 1 día
-                        $fechamax= date("Y-m-d",strtotime($fecha_actual."+ 1 days"));
-                        $fechamin =$fecha_actual;
-                        echo $salida;
-                        ?> 
-                        <br><label for="Fecha">*Salida:</label>
-                        <input type="datetime-local" name="salida" value="<?php echo date('Y-m-d').'T'.date('23:00'); ?>" min="<?php echo $fechamin.'T'.date('23:00'); ?>"  placeholder="yyyy-MM-hh HH:mm:ss" id="SalidaID" required  />
-                        <span class="form_hint">Formato correcto: "yyyy-MM-hh HH:mm"</span>
-                    </li>
-                <?php 
-                }
-                if($oficina>1 and $tipo=="FUNCIONARIO")
-                {
-                ?>
-                    <li>
-                    <br><label for="Fecha">*Ingreso:</label>
-                    <input type="text" name="ingreso" id ="IngresoID" value="<?php echo $ingreso; ?>" readonly />
-                    </li>
-                    <li>
-                        <br><label for="Fecha">*Salida:</label>
-                        <input type="text" name="salida" id ="SalidaID" value="<?php echo $salida; ?>" readonly />
-                    </li>
-                <?php 
-                }
-                if($oficina==1)
-                {
-                ?>
+                
                     <li>
                         <?php echo $ingreso;
                         $fecha_actual = date("Y-m-d");
@@ -352,16 +314,17 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                         <span class="form_hint">Formato correcto: "yyyy-MM-hh HH:mm"</span>
                     </li>
                 <?php 
-                }
+                
                 ?>
                 <?php 
                 if($activo>=4)
                 {
                 ?>
                     <li>
-                    <label>  <?php echo $tipoglobal; ?></label>
+                    <label> <?php echo $tipoglobal; ?></label>
                     <select name="tipo" class="form-control" id="sel1">
-                    <option><?php echo $tipoglobal;?></option>
+                    <option><?php echo $tipoglobal; ?></option>
+                   
                     </select>
                     </li>
                 <?php 
@@ -373,12 +336,89 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                 ?>
                     <li>
                         <label for="sel1">*Perfil:</label>
-                        <input type="text" placeholder=<?php echo $tipoglobal;?> name="tipo" id ="sel1" value="<?php 
+                        <input type="text" placeholder="<?php echo $tipoglobal; ?>" name="tipo" id ="sel1" value="<?php 
                         if($tipo =="")echo $tipoglobal;else echo $tipo;?>" readonly />
                     </li>
                 <?php 
                 }
                 ?>
+                 
+                <li>
+                    <label >*Grupo Acceso</label>
+                    <select name="grupoacceso" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_acceso";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['id'].'">'.$recorrergrupoacceso['nombre'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                </li><li>
+                <label >*Vehículo:</label>
+                    
+                     <select id="carro" name="carro" onchange="mostrarSeleccionado()" class="form-control">
+                     <option value='NO' selected>NO</option>
+                     <option value='SI'>SI</option>
+                     </select>
+                    </li>
+                    <script type="text/javascript">
+                     function mostrarSeleccionado(){
+                      var cod = document.getElementById("carro").value;
+                     if(cod=='NO'){
+                     hide();
+                     }else if(cod == 'SI'){
+                     show();
+                     }}
+                     function hide(){
+                     var earrings = document.getElementById('tipov');
+                     earrings.style.visibility = 'hidden';
+                     }
+
+                     function show(){
+                     var earrings = document.getElementById('tipov');
+                     earrings.style.visibility = 'visible';
+                     }
+                     </script>
+                 </li>
+                 <li>
+                  
+                     <select   style="visibility:hidden;" id="tipov" name="tipov" class="form-control">
+                     <option>CARRO</option>
+                     <option>MOTO</option>
+                     
+                     </select>
+                </li>   
+                <li>
+                    <label >*Grupo Horario</label>
+                    <select name="grupohorario" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_horario";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['idhorario'].'">'.$recorrergrupoacceso['nombre'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                </li>
+                <li>
+                    <label for="autoriza">*Grupo Dias</label>
+                    <select name="grupodias" class="form-control">
+                    <?php
+                    $sqlgrupoacceso="SELECT * FROM grupo_dia";
+                    $resultadoogrupoacceso = mysqli_query($con,$sqlgrupoacceso);
+                    while($recorrergrupoacceso = mysqli_fetch_assoc($resultadoogrupoacceso))
+                    {
+                        echo '<option value="'.$recorrergrupoacceso['iddia'].'">'.$recorrergrupoacceso['numero'].'</option>';
+                    }
+                    ?>
+                    </select>
+                    <br>
+                </li>
                 <li>
                     <label for="autoriza">Autoriza</label>
                     <select name="estado" class="form-control">
@@ -402,14 +442,14 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
             if($tipo=="VISITANTE")
             {
                 echo "<script type='text/javascript'>
-                alert('Este usuario es Visitante , registrelo en la pestaña Registrar Visitante');
+                alert('Este usuario es Visitante , registrelo en la pestaña Registrar Visitantes');
                 </script>";
                 //exit;
             }
             if($tipo=="FUNCIONARIO")
             {
                 echo "<script type='text/javascript'>
-                alert('Este usuario es Contratista , registrelo en la pestaña Registrar Contratista');
+                alert('Este usuario es Funcionario , registrelo en la pestaña Registrar Funcionario');
                 </script>";
             }?>              
 
