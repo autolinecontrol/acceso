@@ -9,6 +9,12 @@ echo $Identificacion;
 echo $Oficina;
 
 
-$resultado = mysqli_query($con, "DELETE from parqueadero where identificacion = '$Identificacion'");
-
+$sql = "INSERT INTO transacciones2(identificacion,oficina) 
+VALUES (NULL,'$Identificacion','$oficina')";
+if (mysqli_query($con, $sql)) {
+      echo "New record created successfully";
+} else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($con);
+}
+mysqli_close($con);
 ?>

@@ -2,7 +2,7 @@
 require 'conexion.php';
 
 $Identificacion = $_GET['identificacion'];
-$Oficina        = $_GET['oficina'];
+$oficina        = $_GET['oficina'];
 $tipov          = $_GET['tipov'];
 
 echo $Identificacion;
@@ -10,7 +10,12 @@ echo $Oficina;
 echo $tipov;
 
 
-$resultado = mysqli_query($con, "REPLACE INTO parqueadero(Identificacion,Oficina,tipov) 
-VALUES ('$Identificacion','$Oficina','$tipov')");
-
+$sql = "INSERT INTO transacciones1(identificacion,oficina,tipov) 
+VALUES (NULL,'$Identificacion','$oficina','$tipov')";
+if (mysqli_query($con, $sql)) {
+      echo "New record created successfully";
+} else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($con);
+}
+mysqli_close($con);
 ?>
