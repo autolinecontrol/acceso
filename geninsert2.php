@@ -57,6 +57,7 @@ $grupodias="1";
 $carro="NO";
 $tipovehiculo="NO";
 $looby=1;
+$torre=$grupoacceso;
 }
 if($tipo == 'CONTRATISTA')
 $fechamax= date("Y-m-d",strtotime($ingreso."+ 91 days"));
@@ -119,9 +120,9 @@ if(!$validan>0)
         //____________________________________________INSERTAR EN VISITANTES______________________________________
 
         $sqlvisi="REPLACE INTO visitantes (idvisitante,nombre,identificacion,Oficina,correo,Ingreso
-        ,Salida,estado,ncontroladora,tipo,vehiculo,Tipovehiculo,grupoacceso,grupohorario,grupodias) 
+        ,Salida,estado,ncontroladora,tipo,vehiculo,Tipovehiculo,grupoacceso,grupohorario,grupodias,torre) 
         VALUES (NULL,  '$nombres','$identificacion','$oficina','$correo','$ingreso','$salida','$stat',
-        '$cont','$tipo','$carro','$tipovehiculo','$grupoacceso','$grupohorario','$grupodias')";
+        '$cont','$tipo','$carro','$tipovehiculo','$grupoacceso','$grupohorario','$grupodias','$torre')";
         $resultadovisi = mysqli_query($con,$sqlvisi);
         echo "<b>".$sqlvisi."</b>"."<br>"; 
      
@@ -475,6 +476,7 @@ if($looby==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =4";
     echo "Esta es la torre $torre ";
+    echo $sqlcontroladoras;
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
     $grupo=4;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
@@ -547,7 +549,7 @@ if($pf==1)
         }
     }
 }
-exit;
+
 //_______________________________________________ENVIAR CORREOS__________________________________
 function enviarcorreos($correovisitante,$identificacion,$nombrevisitante,$con)
 {       
