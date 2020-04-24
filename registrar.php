@@ -34,14 +34,14 @@
             $subject = 'Verifica tu cuenta';
             $message_body = 'hola '.$nombre. ', Gracias por Registrarse !
             Por favor confirma tu cuenta haciendo click en este link
-            http://centralpointacceso.com/acceso/LOGIN/verificar.php?email='.$email.'&hash='.$hash;
+            http://edificioteleport.com//acceso/verificar.php?email='.$email.'&hash='.$hash;
             
             
                     
-            //sendEmail($para_usuario, $subject, $message_body);
+            sendEmail($para_usuario, $subject, $message_body);
         
-            //header('Location: perfil.php');
-            //exit();
+            header('Location: perfil.php');
+            exit();
             
         }else{
             $_SESSION['message']="Ocurrio un Error";
@@ -55,8 +55,8 @@
                 $mail->isSMTP();                                      // Set mailer to use SMTP
                 $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
                 $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                $mail->Username = 'centralpointacceso@gmail.com';                 // SMTP username
-                $mail->Password = 'acceso2018';                           // SMTP password
+                $mail->Username = 'teleportacceso@gmail.com';                 // SMTP username
+                $mail->Password = 'Acceso2020';                           // SMTP password
                 $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
                 $mail->Port = 587;                                    // TCP port to connect to
 
