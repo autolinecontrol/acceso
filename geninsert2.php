@@ -50,10 +50,11 @@ if($salida<$ingreso)
 //_______________________________________ASIGNACION DE FECHAS MAXIMAS_____________________________________
 
 if ($tipo == 'VISITANTE'){
+    echo "ENTRO EN VISITANTES";
 $fechamax= date("Y-m-d",strtotime($ingreso."+ 16 days"));
 $grupohorario="1";
 $grupodias="1";
-$vehiculo="NO";
+$carro="NO";
 $tipovehiculo="NO";
 $looby=1;
 }
@@ -473,6 +474,7 @@ if($sotanos==1)
 if($looby==1)
 {
     $sqlcontroladoras="SELECT idcontroladora,Torre FROM controladoras WHERE grupo =4";
+    echo "Esta es la torre $torre ";
     $resultadocontroladoras = mysqli_query($con,$sqlcontroladoras);
     $grupo=4;
     while($fila = mysqli_fetch_assoc($resultadocontroladoras))
@@ -545,6 +547,7 @@ if($pf==1)
         }
     }
 }
+exit;
 //_______________________________________________ENVIAR CORREOS__________________________________
 function enviarcorreos($correovisitante,$identificacion,$nombrevisitante,$con)
 {       
