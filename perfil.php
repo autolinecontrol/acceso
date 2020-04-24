@@ -344,9 +344,9 @@ if ($result->num_rows > 0) //si la variable tiene al menos 1 fila entonces segui
                   <li>
                     <label >*Grupo Acceso</label>
                     <select name="grupoacceso" class="form-control">
-                   <option value="3" >Torre A</option>
-                   <option value="4" >Torre B</option>
-                   <option value="5" >Torre A y B</option>
+                   <option value="1" >Torre A</option>
+                   <option value="2" >Torre B</option>
+                   <option value="3" >Torre A y B</option>
                     </select>
                     <br>
                 </li>

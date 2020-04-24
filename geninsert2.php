@@ -55,6 +55,7 @@ $grupohorario="1";
 $grupodias="1";
 $vehiculo="NO";
 $tipovehiculo="NO";
+$looby=1;
 }
 if($tipo == 'CONTRATISTA')
 $fechamax= date("Y-m-d",strtotime($ingreso."+ 91 days"));
