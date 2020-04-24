@@ -36,7 +36,7 @@
               <div class='dropdown-content'>
                 <a href='perfil.php'  >Registrar Visitantes</a>
                 <a href='mostrar.php' >Mostrar Visitantes</a>
-                <a href='importar2.php' >Masivo Visitantes</a>
+                
               </div>
             </li>
           </ul>
@@ -52,7 +52,7 @@
               <div class="dropdown-content">
                 <a href="perfil.php"  >Registrar Visitantes</a>
                 <a href="mostrar.php" >Mostrar Visitantes</a>
-                <a href="importar2.php" >Masivo Visitantes</a>
+                
               </div>
             </li>
             <li class="dropdown">
@@ -84,7 +84,7 @@
                                     <div class="dropdown-content">
                                       <a href="perfil.php"  >Registrar Visitantes</a>
                                       <a href="mostrar.php" >Mostrar Visitantes</a>
-                                      <a href="importar2.php" >Masivo Visitantes</a>
+                                    
                                     </div>
                                   </li>
                                   <li class="dropdown">
@@ -127,7 +127,7 @@
                                     <div class="dropdown-content">
                                       <a href="perfil.php"  >Registrar Visitantes</a>
                                       <a href="mostrar.php" >Mostrar Visitantes</a>
-                                      
+                                   
                                     </div>
                                   </li>
                                   <li class="dropdown">
@@ -135,7 +135,7 @@
                                     <div class="dropdown-content">
                                       <a href="perfil2.php" >Registrar Contratistas</a>
                                       <a href="mostrarc.php" >Mostrar Contratistas</a>
-                                      <a href="importar2.php" >Masivo Contratistas</a>
+                                      
                                     </div>
                                   </li>
                                   <li class="dropdown">
